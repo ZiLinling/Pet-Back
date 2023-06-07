@@ -19,7 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Pets extends BaseEntity implements Serializable {
+public class Pet extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

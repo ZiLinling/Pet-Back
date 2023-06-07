@@ -2,7 +2,6 @@ package com.xmut.pet.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -20,7 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Orders extends BaseEntity implements Serializable {
+public class Order extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

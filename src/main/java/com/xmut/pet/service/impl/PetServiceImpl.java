@@ -1,8 +1,8 @@
 package com.xmut.pet.service.impl;
 
-import com.xmut.pet.entity.Pets;
+import com.xmut.pet.entity.Pet;
 import com.xmut.pet.mapper.PetsMapper;
-import com.xmut.pet.service.PetsService;
+import com.xmut.pet.service.PetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2023-06-06 09:27:24
  */
 @Service
-public class PetsServiceImpl extends ServiceImpl<PetsMapper, Pets> implements PetsService {
+public class PetServiceImpl extends ServiceImpl<PetsMapper, Pet> implements PetService {
 
 }

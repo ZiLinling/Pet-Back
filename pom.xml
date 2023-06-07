@@ -13,6 +13,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
     <dependencies>
 
         <dependency>
@@ -105,8 +113,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.xmut.pet.PetApplication</mainClass>
-<!--                    <addClasspath>true</addClasspath>-->
-<!--                    <classpathPrefix>lib/</classpathPrefix>-->
                 </configuration>
                 <executions>
                     <execution>

@@ -1,6 +1,6 @@
 package com.xmut.pet.mapper;
 
-import com.xmut.pet.entity.Orders;
+import com.xmut.pet.entity.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Zi
  * @since 2023-06-06 09:27:37
  */
-public interface OrdersMapper extends BaseMapper<Orders> {
+public interface OrdersMapper extends BaseMapper<Order> {
 
 }
