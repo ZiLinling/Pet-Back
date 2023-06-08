@@ -40,6 +40,11 @@ public class Good extends BaseEntity implements Serializable {
     private Integer storeId;
 
     /**
+     * 类别id
+     */
+    private Integer categoryId;
+
+    /**
      * 库存
      */
     private Integer stock;

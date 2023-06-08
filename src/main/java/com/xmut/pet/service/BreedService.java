@@ -1,0 +1,16 @@
+package com.xmut.pet.service;
+
+import com.xmut.pet.entity.Breed;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+/**
+ * <p>
+ *  服务类
+ * </p>
+ *
+ * @author Zi
+ * @since 2023-06-07 11:44:44
+ */
+public interface BreedService extends IService<Breed> {
+
+}

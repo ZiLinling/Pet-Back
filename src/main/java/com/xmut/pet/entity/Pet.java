@@ -34,10 +34,6 @@ public class Pet extends BaseEntity implements Serializable {
      */
     private String name;
 
-    /**
-     * 宠物种类
-     */
-    private String species;
 
     /**
      * 宠物年龄
@@ -57,7 +53,7 @@ public class Pet extends BaseEntity implements Serializable {
     /**
      * 宠物品种
      */
-    private String breed;
+    private Integer breedId;
 
     /**
      * 宠物描述
