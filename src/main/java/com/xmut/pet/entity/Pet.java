@@ -1,10 +1,10 @@
 package com.xmut.pet.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.xmut.pet.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:27:24
+ * @since 2023-06-08 10:00:05
  */
 @Getter
 @Setter
@@ -33,7 +33,6 @@ public class Pet extends BaseEntity implements Serializable {
      * 宠物名称
      */
     private String name;
-
 
     /**
      * 宠物年龄
@@ -53,10 +52,15 @@ public class Pet extends BaseEntity implements Serializable {
     /**
      * 宠物品种
      */
-    private Integer breedId;
+    private String breedId;
 
     /**
      * 宠物描述
      */
     private String describe;
+
+    /**
+     * 宠物状态
+     */
+    private String status;
 }

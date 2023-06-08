@@ -1,9 +1,9 @@
 package com.xmut.pet.entity;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+
 import com.xmut.pet.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:26:22
+ * @since 2023-06-08 10:00:58
  */
 @Getter
 @Setter
@@ -57,11 +57,6 @@ public class User extends BaseEntity implements Serializable {
      * 0是普通用户，1是管理员
      */
     private String role;
-
-    /**
-     * 商店id
-     */
-    private Integer storeId;
 
     /**
      * 创建时间

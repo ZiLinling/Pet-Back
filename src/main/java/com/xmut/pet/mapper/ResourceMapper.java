@@ -1,6 +1,6 @@
 package com.xmut.pet.mapper;
 
-import com.xmut.pet.entity.User;
+import com.xmut.pet.entity.Resource;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author Zi
- * @since 2023-06-08 10:00:58
+ * @since 2023-06-08 10:00:22
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface ResourceMapper extends BaseMapper<Resource> {
 
 }

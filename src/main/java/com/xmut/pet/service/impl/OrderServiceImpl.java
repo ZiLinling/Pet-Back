@@ -1,7 +1,7 @@
 package com.xmut.pet.service.impl;
 
 import com.xmut.pet.entity.Order;
-import com.xmut.pet.mapper.OrdersMapper;
+import com.xmut.pet.mapper.OrderMapper;
 import com.xmut.pet.service.OrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:27:37
+ * @since 2023-06-08 09:58:59
  */
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Order> implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
 }

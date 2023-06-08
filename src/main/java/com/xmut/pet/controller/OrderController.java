@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author Zi
- * @since 2023-06-08 09:58:03
+ * @since 2023-06-08 09:58:59
  */
 @Controller
-@RequestMapping("/favor")
-public class FavorController {
+@RequestMapping("/order")
+public class OrderController {
 
 }

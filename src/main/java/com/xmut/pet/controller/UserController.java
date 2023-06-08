@@ -2,7 +2,6 @@ package com.xmut.pet.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:26:22
+ * @since 2023-06-08 10:00:58
  */
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 

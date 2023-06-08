@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:28:33
+ * @since 2023-06-08 09:59:14
  */
 @Getter
 @Setter
@@ -33,12 +33,7 @@ public class OrderItem extends BaseEntity implements Serializable {
     /**
      * 宠物id
      */
-    private Integer petId;
-
-    /**
-     * 商品周边id
-     */
-    private Integer goodsId;
+    private Integer itemId;
 
     /**
      * 订单数量
@@ -46,7 +41,7 @@ public class OrderItem extends BaseEntity implements Serializable {
     private Integer num;
 
     /**
-     * 是否评论，0是未评论，1是已评论
+     * 0为宠物,1为周边
      */
-    private String isComment;
+    private Integer type;
 }

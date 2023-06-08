@@ -1,6 +1,6 @@
 package com.xmut.pet.service;
 
-import com.xmut.pet.entity.Good;
+import com.xmut.pet.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:28:49
+ * @since 2023-06-08 09:58:20
  */
-public interface GoodService extends IService<Good> {
+public interface GoodsService extends IService<Goods> {
 
 }

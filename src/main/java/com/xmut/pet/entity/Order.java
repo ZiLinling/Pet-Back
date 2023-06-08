@@ -1,10 +1,10 @@
 package com.xmut.pet.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.xmut.pet.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:27:37
+ * @since 2023-06-08 09:58:59
  */
 @Getter
 @Setter
@@ -40,7 +40,7 @@ public class Order extends BaseEntity implements Serializable {
     private String createTime;
 
     /**
-     * 订房总价
+     * 订单总价
      */
     private BigDecimal price;
 
@@ -68,4 +68,9 @@ public class Order extends BaseEntity implements Serializable {
      * 订单备注
      */
     private String postscript;
+
+    /**
+     * 是否评论，0是未评论，1是已评论
+     */
+    private String isComment;
 }

@@ -14,7 +14,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-07 11:44:44
+ * @since 2023-06-08 09:56:07
  */
 @Getter
 @Setter
@@ -37,4 +37,9 @@ public class Breed extends BaseEntity implements Serializable {
      * 宠物物种(1是猫,2是狗,3是其他)
      */
     private String specie;
+
+    /**
+     * 状态
+     */
+    private String status;
 }

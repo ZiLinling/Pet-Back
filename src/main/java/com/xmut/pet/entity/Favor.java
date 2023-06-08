@@ -1,9 +1,9 @@
 package com.xmut.pet.entity;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+
 import com.xmut.pet.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:28:58
+ * @since 2023-06-08 09:58:03
  */
 @Getter
 @Setter
@@ -29,14 +29,14 @@ public class Favor extends BaseEntity implements Serializable {
     private Integer id;
 
     /**
-     * 宠物id
+     * 物品id(宠物id/周边id)
      */
-    private Integer petId;
+    private Integer itemId;
 
     /**
-     * 商品周边id
+     * 0为宠物,1为周边
      */
-    private Integer goodsId;
+    private Integer type;
 
     /**
      * 用户id

@@ -1,9 +1,9 @@
 package com.xmut.pet.entity;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+
 import com.xmut.pet.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:29:23
+ * @since 2023-06-08 09:57:14
  */
 @Getter
 @Setter
@@ -29,7 +29,7 @@ public class Cart extends BaseEntity implements Serializable {
     private Integer id;
 
     /**
-     * 周边id
+     * 商品id(宠物id/周边id)
      */
     private Integer goodsId;
 
@@ -37,11 +37,6 @@ public class Cart extends BaseEntity implements Serializable {
      * 用户id
      */
     private Integer userId;
-
-    /**
-     * 宠物id
-     */
-    private Integer petId;
 
     /**
      * 数量

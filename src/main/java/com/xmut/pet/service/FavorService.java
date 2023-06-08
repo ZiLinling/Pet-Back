@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:28:58
+ * @since 2023-06-08 09:58:03
  */
 public interface FavorService extends IService<Favor> {
 

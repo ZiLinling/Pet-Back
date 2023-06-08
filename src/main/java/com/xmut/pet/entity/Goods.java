@@ -1,11 +1,9 @@
 package com.xmut.pet.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.xmut.pet.base.BaseEntity;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,11 +13,11 @@ import lombok.Setter;
  * </p>
  *
  * @author Zi
- * @since 2023-06-06 09:28:49
+ * @since 2023-06-08 09:58:20
  */
 @Getter
 @Setter
-public class Good extends BaseEntity implements Serializable {
+public class Goods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,11 +38,6 @@ public class Good extends BaseEntity implements Serializable {
     private Integer storeId;
 
     /**
-     * 类别id
-     */
-    private Integer categoryId;
-
-    /**
      * 库存
      */
     private Integer stock;
@@ -63,4 +56,14 @@ public class Good extends BaseEntity implements Serializable {
      * 商品描述
      */
     private String describe;
+
+    /**
+     * 类别
+     */
+    private Integer category;
+
+    /**
+     * 商品状态
+     */
+    private Integer status;
 }
