@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Controller;
  * @author Zi
  * @since 2023-06-08 09:55:47
  */
-@Controller
+@RestController
 @RequestMapping("/address")
 public class AddressController {
 
@@ -30,8 +31,8 @@ public class AddressController {
         Result result = new Result();
         result.success("地址:列表请求成功");
         result.setData(addressService.getListByUserId(userId));
+        System.out.println(result.getStatusCode());
         return result;
-
     }
 
 
