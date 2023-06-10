@@ -42,4 +42,9 @@ public class Breed extends BaseEntity implements Serializable {
      * 状态
      */
     private String status;
+
+    /**
+     * 物种图片
+     */
+    private String img;
 }

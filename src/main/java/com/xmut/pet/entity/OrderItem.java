@@ -31,7 +31,7 @@ public class OrderItem extends BaseEntity implements Serializable {
     private Integer id;
 
     /**
-     * 宠物id
+     * 物品id(宠物id/周边id)
      */
     private Integer itemId;
 

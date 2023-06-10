@@ -48,7 +48,7 @@ public class Goods implements Serializable {
     private BigDecimal price;
 
     /**
-     * 图片
+     * 商品图片
      */
     private String img;
 

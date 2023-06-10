@@ -62,4 +62,9 @@ public class User extends BaseEntity implements Serializable {
      * 创建时间
      */
     private String createTime;
+
+    /**
+     * 头像地址
+     */
+    private String img;
 }
