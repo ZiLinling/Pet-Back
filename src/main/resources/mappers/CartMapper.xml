@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmut.pet.mapper.CartMapper">
 
+
+<!--    <resultMap id="selectGoods" type="com.xmut.pet.VO.CartVO.CartVO">-->
+<!--        <result column="goods" jdbcType="VARCHAR" property="goodsVOList" />-->
+<!--        <collection  column="{id1=id,name=name}"-->
+<!--                     property="goodsVOList"-->
+<!--                     select="com.xmut.pet.mapper.CartMapper.listByClassInfoId">-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="selectGoods" type="com.xmut.pet.VO.CartVO.CartVO">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="studentName" column="student_name"/>-->
+<!--        &lt;!&ndash;collection:一对多-->
+<!--            assocication:一对一-->
+<!--            &ndash;&gt;-->
+<!--        <collection property="courses" ofType="com.dreamyfish.entity.Course">-->
+<!--            <result column="cid" property="cid" />-->
+<!--            <result column="course_name" property="courseName" />-->
+<!--            <result column="student_id" property="studentId" />-->
+<!--        </collection>-->
+
+<!--    </resultMap>-->
+
+<!--    <select id="getAll" resultMap="s_r">-->
+<!--        select * from student a left join course b on a.id=b.student_id-->
+<!--    </select>-->
+
 </mapper>
