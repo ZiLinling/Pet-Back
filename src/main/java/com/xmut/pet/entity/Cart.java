@@ -47,5 +47,5 @@ public class Cart extends BaseEntity implements Serializable {
     /**
      * 是否选中，0未选中，1选中
      */
-    private String check;
+    private Boolean check;
 }

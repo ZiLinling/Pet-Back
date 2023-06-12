@@ -2,7 +2,6 @@ package com.xmut.pet.VO;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,6 +11,6 @@ public class CartVO {
     //商店名称
     private Integer storeId;
     //商店id
-    private List<goodsVO> goodsVOList;
+    private List<GoodsVO> goodsVOList;
     //商店里的商品
 }
