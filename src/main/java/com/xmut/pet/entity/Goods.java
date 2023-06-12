@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,10 +17,9 @@ import lombok.Setter;
  * @author Zi
  * @since 2023-06-08 09:58:20
  */
-@Getter
-@Setter
-@ApiModel("商品实体类")
-public class Goods implements Serializable {
+@Data
+@ApiModel("Goods")
+public class Goods extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

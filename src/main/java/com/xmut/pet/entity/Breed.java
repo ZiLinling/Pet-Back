@@ -6,8 +6,7 @@ import java.io.Serializable;
 
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,9 +16,8 @@ import lombok.Setter;
  * @author Zi
  * @since 2023-06-08 09:56:07
  */
-@Getter
-@Setter
-@ApiModel("品种实体类")
+@Data
+@ApiModel("Breed")
 public class Breed extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

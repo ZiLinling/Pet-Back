@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 /**
  * <p>
@@ -18,9 +18,8 @@ import lombok.Setter;
  * @author Zi
  * @since 2023-06-08 10:00:05
  */
-@Getter
-@Setter
-@ApiModel("宠物实体类")
+@Data
+@ApiModel("Pet")
 public class Pet extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

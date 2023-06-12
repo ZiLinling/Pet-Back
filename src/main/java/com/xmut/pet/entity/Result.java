@@ -3,6 +3,8 @@ package com.xmut.pet.entity;
 
 
 
+import io.swagger.annotations.ApiModel;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +14,7 @@ import java.util.Map;
  * @author bill.lin
  *
  */
+@ApiModel("Result")
 public class Result<T> implements Serializable{
 
 	private String statusCode = ResultType.SUCCESS.getCode();

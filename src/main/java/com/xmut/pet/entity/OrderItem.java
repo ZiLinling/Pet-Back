@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 /**
  * <p>
@@ -18,10 +18,9 @@ import lombok.Setter;
  * @author Zi
  * @since 2023-06-08 09:59:14
  */
-@Getter
-@Setter
+@Data
 @TableName("order_item")
-@ApiModel("订单物品实体类")
+@ApiModel("OrderItem")
 public class OrderItem extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

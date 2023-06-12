@@ -32,8 +32,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private HttpServletRequest request;
     @PostMapping("/login")
     @ApiOperation(value="用户登录")
     public Result login(@RequestBody User user) {
@@ -65,6 +63,27 @@ public class UserController {
         } else {
             result.fail("注册失败,用户名重复");
         }
+        return result;
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value="更新用户信息")
+    public Result update(@RequestBody User user) {
+        Result result = new Result<>();
+        if (userService.updateById(user)) {
+            result.success("更新成功");
+        } else {
+            result.fail("更新失败");
+        }
+        return result;
+    }
+
+    @PostMapping("/getById")
+    @ApiOperation(value="获取用户信息")
+    public Result<User> getById(Integer userId) {
+        Result<User> result = new Result<>();
+        result.success("获取成功");
+        result.setData(userService.getById(userId));
         return result;
     }
 

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 /**
  * <p>
@@ -17,9 +17,9 @@ import lombok.Setter;
  * @author Zi
  * @since 2023-06-08 10:00:22
  */
-@Getter
-@Setter
-@ApiModel("资源实体类")
+
+@Data
+@ApiModel("Resource")
 public class Resource extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
