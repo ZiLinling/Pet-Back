@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 @Data
-public class goodsVO {
+public class GoodsVO {
     private String name;
     /**
      * 商店id

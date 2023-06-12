@@ -1,18 +1,14 @@
 package com.xmut.pet.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.VO.CartVO;
-import com.xmut.pet.VO.goodsVO;
+import com.xmut.pet.VO.GoodsVO;
 import com.xmut.pet.entity.Cart;
-import com.xmut.pet.entity.Store;
 import com.xmut.pet.mapper.CartMapper;
 import com.xmut.pet.service.CartService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,10 +24,18 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     @Override
     public boolean save(Integer userId,Integer goodsId){
         Cart cart=new Cart();
-        cart.setUserId(userId);
-        cart.setGoodsId(goodsId);
-        cart.setNum(1);
-        this.save(cart);
+        Cart cartExist=new Cart();
+        cartExist=this.baseMapper.isExist(userId,goodsId);
+        if(cartExist!=null){
+            cartExist.setNum(cartExist.getNum()+1);
+            this.updateById(cartExist);
+        }else{
+            cart.setUserId(userId);
+            cart.setGoodsId(goodsId);
+            cart.setNum(1);
+            cart.setCheck(false);
+            this.save(cart);
+        }
         return true;
     }
 
@@ -41,14 +45,14 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         return true;
     }
     @Override
-    public List<CartVO> getAllCart(Cart cart){
+    public List<CartVO> getAllCart(Integer userId){
         List<CartVO> cartVO = new ArrayList<>();
-        cartVO=this.baseMapper.getCartByUserId(cart.getUserId());
-        List<goodsVO> goodsVOList= this.baseMapper.selectByUserId(cart.getUserId());
+        cartVO=this.baseMapper.getCartByUserId(userId);
+        List<GoodsVO> goodsVOList= this.baseMapper.selectByUserId(userId);
 
         for (CartVO cartItem : cartVO) {
-            List<goodsVO> goodsVOItem=new ArrayList<>();
-            for (goodsVO item : goodsVOList){
+            List<GoodsVO> goodsVOItem=new ArrayList<>();
+            for (GoodsVO item : goodsVOList){
                 if(item.getStoreId()==cartItem.getStoreId()){
                //     cartItem.setGoodsVOList(item);
                     goodsVOItem.add(item);

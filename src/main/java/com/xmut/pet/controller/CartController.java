@@ -1,6 +1,9 @@
 package com.xmut.pet.controller;
 
 import com.xmut.pet.service.CartService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +24,22 @@ import com.xmut.pet.entity.Result;
 public class CartController {
     @Autowired
     CartService cartService;
+    @ApiOperation(value = "新增购物车")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query",value = "用户id", required = true),
+            @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query",value = "商品id", required = true),
+    })
+
     @RequestMapping(method = RequestMethod.POST,value = "/save")
     public Result save( Integer userId ,Integer goodsId){
         Result result = new Result();
+
+
         if(userId==null||goodsId==null){
             result.addError("某个id为空");
         }
         else{
+
             if(cartService.save(userId,goodsId)){
                 result.success("新增成功");
             }
@@ -37,21 +49,26 @@ public class CartController {
         }
         return result;
     }
-
+    @ApiOperation(value = "移除购物车")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cartId", dataType = "Integer", paramType = "query",value = "购物车id", required = true),
+    })
     @RequestMapping(method = RequestMethod.POST,value = "/delete")
-    public Result delete( Integer Id) {
+    public Result delete( Integer cartId) {
         Result result = new Result();
 
-        if (cartService.delete(Id)) {
+        if (cartService.delete(cartId)) {
             result.success("删除成功");
         }
         return result;
     }
-
+    @ApiOperation(value = "获得购物车列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query",value = "用户id", required = true),
+    })
     @RequestMapping(method = RequestMethod.GET, value = "/getcart")
-    public Result pageCart(@RequestBody Cart cart) {
+    public Result pageCart(Integer userId) {
         Result result = new Result();
-        Integer userId=1;
 //        try {
 //            String token = RequestUtil.getCurrentToken();
 //            String userId = JwtUtil.validateToken(token);
@@ -61,8 +78,7 @@ public class CartController {
 //            } else if (userId == null || userId.equals("") || exitUser == null) {
 //                result.againLogin("身份信息失效，请重新登录！");
 //            } else {
-        System.out.println(cartService.getAllCart(cart));
-                result.setData(cartService.getAllCart(cart));
+                result.setData(cartService.getAllCart(userId));
                 result.success("查询成功！");
 
 //            }
