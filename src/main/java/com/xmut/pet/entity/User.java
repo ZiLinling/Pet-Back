@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
 import com.xmut.pet.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ApiModel("用户实体类")
 public class User extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +58,7 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 0是普通用户，1是管理员
      */
-    private String role;
+    private Integer role;
 
     /**
      * 创建时间

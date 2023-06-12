@@ -1,5 +1,6 @@
 package com.xmut.pet.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xmut.pet.entity.User;
 import com.xmut.pet.mapper.UserMapper;
 import com.xmut.pet.service.UserService;
@@ -17,4 +18,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
+    @Override
+    public User login(User user) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("account",user.getAccount()).eq("password",user.getPassword());
+        return this.getOne(queryWrapper);
+    }
+
+    @Override
+    public Boolean register(User user) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("account",user.getAccount());
+        user.setRole(0);
+        if(this.count(queryWrapper)!=0) {
+            return false;
+        }else {
+            this.save(user);
+            return true;
+        }
+    }
 }

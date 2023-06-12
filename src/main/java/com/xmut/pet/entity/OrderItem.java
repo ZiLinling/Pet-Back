@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 import com.xmut.pet.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("order_item")
+@ApiModel("订单物品实体类")
 public class OrderItem extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

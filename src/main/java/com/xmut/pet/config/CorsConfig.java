@@ -20,7 +20,7 @@ public class CorsConfig {
         // 允许cookies跨域
         config.setAllowCredentials(true);
         // 需要跨域的地址 * 表示对所有的地址都可以访问
-        config.setAllowedOrigins(Collections.singletonList("*"));
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
         // 跨域的请求头, *表示全部
         config.setAllowedHeaders(Collections.singletonList("*"));
         // 跨域的请求方法, *表示全部允许,也可以单独设置GET、PUT等

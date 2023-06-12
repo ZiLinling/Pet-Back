@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.xmut.pet.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ApiModel("订单实体类")
 public class Order extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

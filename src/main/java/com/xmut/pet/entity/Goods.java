@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ApiModel("商品实体类")
 public class Goods implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
 import com.xmut.pet.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ApiModel("品种实体类")
 public class Breed extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
