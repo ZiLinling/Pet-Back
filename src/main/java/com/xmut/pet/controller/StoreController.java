@@ -1,8 +1,11 @@
 package com.xmut.pet.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.entity.Store;
 import com.xmut.pet.service.StoreService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class StoreController {
 
     @GetMapping("/getById")
     @ApiOperation(value = "获取商店信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "商店id", required = true),
+    })
     public Result<Store> getById(Integer id) {
         Result<Store> result = new Result<>();
         result.success("商店:获取成功");
@@ -34,7 +40,10 @@ public class StoreController {
 
     @PostMapping("/update")
     @ApiOperation(value = "更新商店信息")
-    public Result getById(@RequestBody Store store) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "store", dataType = "Store", paramType = "Body", value = "商店信息", required = true),
+    })
+    public Result update(@RequestBody Store store) {
         Result result = new Result();
         if (storeService.updateById(store)) {
             result.success("商店:更新成功");
@@ -47,6 +56,9 @@ public class StoreController {
     //新增商店
     @PostMapping("/add")
     @ApiOperation(value = "新增商店")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "store", dataType = "Store", paramType = "Body", value = "商店信息", required = true),
+    })
     public Result add(@RequestBody Store store) {
         Result result = new Result();
         if (storeService.save(store)) {
@@ -60,6 +72,9 @@ public class StoreController {
     //删除商店
     @GetMapping("/delete")
     @ApiOperation(value = "删除商店")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "商店id", required = true),
+    })
     public Result delete(Integer id) {
         Result result = new Result();
         if (storeService.removeById(id)) {
@@ -70,6 +85,22 @@ public class StoreController {
         return result;
     }
 
+    //分页获取商店列表
+    @GetMapping("/getList")
+    @ApiOperation(value = "分页获取商店列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "页码", required = true),
+            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "页大小", required = true),
+            @ApiImplicitParam(name = "key", dataType = "String", paramType = "query", value = "关键字"),
+            @ApiImplicitParam(name = "status", dataType = "Integer", paramType = "query", value = "状态"),
+    })
+    public Result<Page<Store>> getList(Integer pageNum, Integer pageSize, String key, Integer status) {
+        Result<Page<Store>> result = new Result<>();
+        result.success("商品:列表请求成功");
+        result.setData(storeService.page(pageNum, pageSize, key, status));
+        result.put("total", storeService.count(key, status));
+        return result;
+    }
 
 
 }

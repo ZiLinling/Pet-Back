@@ -57,7 +57,7 @@ public class Goods extends BaseEntity implements Serializable {
     /**
      * 商品描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 类别

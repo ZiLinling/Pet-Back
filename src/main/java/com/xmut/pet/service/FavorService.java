@@ -1,13 +1,13 @@
 package com.xmut.pet.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.entity.Favor;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Zi
@@ -15,5 +15,8 @@ import java.util.List;
  */
 public interface FavorService extends IService<Favor> {
 
-    List<Favor> getListByUserId(Integer userId);
+    Page<Favor> page(Integer pageNum, Integer pageSize, Integer userId, Integer type);
+
+    Long count(Integer userId, Integer type);
+
 }

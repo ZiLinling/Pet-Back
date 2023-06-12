@@ -1,6 +1,6 @@
 package com.xmut.pet.controller;
 
-import com.xmut.pet.entity.Address;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.entity.Goods;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.GoodsService;
@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
+
 
 /**
  * <p>
@@ -74,16 +74,34 @@ public class GoodsController {
         return result;
     }
 
-    //获取商品
+    //获取商品信息
     @GetMapping("/getById")
-    @ApiOperation(value = "获取商品")
+    @ApiOperation(value = "获取商品信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "商品id", required = true),
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "商品id", required = true),
     })
     public Result<Goods> getById(Integer id) {
         Result<Goods> result = new Result<>();
         result.success("商品:获取成功");
         result.setData(goodsService.getById(id));
+        return result;
+    }
+
+    //分页获取商品列表
+    @GetMapping("/getList")
+    @ApiOperation(value = "分页获取商品列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "页码", required = true),
+            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "页大小", required = true),
+            @ApiImplicitParam(name = "key", dataType = "String", paramType = "query", value = "关键字"),
+            @ApiImplicitParam(name = "category", dataType = "Integer", paramType = "query", value = "分类"),
+            @ApiImplicitParam(name = "status", dataType = "Integer", paramType = "query", value = "状态"),
+    })
+    public Result<Page<Goods>> getList(Integer pageNum, Integer pageSize, String key, Integer category, Integer status) {
+        Result<Page<Goods>> result = new Result<>();
+        result.success("商品:列表请求成功");
+        result.setData(goodsService.page(pageNum, pageSize, key, category, status));
+        result.put("total", goodsService.count(key, category, status));
         return result;
     }
 }
