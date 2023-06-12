@@ -33,7 +33,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
             cart.setUserId(userId);
             cart.setGoodsId(goodsId);
             cart.setNum(1);
-            cart.setCheck(false);
+            cart.setIsSelect(false);
             this.save(cart);
         }
         return true;
