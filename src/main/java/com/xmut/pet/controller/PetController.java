@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * <p>
  *  前端控制器
@@ -86,6 +88,23 @@ public class PetController {
         return result;
     }
 
+    //分页查询-page
+    @ApiOperation(value="分页查询宠物记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="pageNum",required=true,paramType="query",value="当前页码"),
+            @ApiImplicitParam(name="pageSize",required=true,paramType="query",value="每页显示条数"),
+            @ApiImplicitParam(name="name",paramType="query",value="宠物类别关键字，可以为空")
+    })
+    @RequestMapping(method = RequestMethod.POST,value = "/page")
+    public Result page(@RequestBody Map map){
+        String breedName = map.get("breedName").toString();
+        Integer pageNum = (Integer) map.get("pageNum");
+        Integer pageSize = (Integer) map.get("pageSize");
+        Result result = new Result();
+        result.success("分页查询成功");
+        result.setData(petService.page(pageNum,pageSize,breedName));
+        return result;
+    }
 
 
 }
