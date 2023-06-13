@@ -2,11 +2,11 @@ package com.xmut.pet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.io.Serializable;
 
 
 /**
@@ -68,4 +68,9 @@ public class User extends BaseEntity implements Serializable {
      * 头像地址
      */
     private String img;
+
+    /**
+     * 宠物状态
+     */
+    private Integer status;
 }

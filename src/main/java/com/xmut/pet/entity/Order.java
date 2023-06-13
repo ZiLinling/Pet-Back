@@ -2,12 +2,12 @@ package com.xmut.pet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 /**
@@ -48,7 +48,7 @@ public class Order extends BaseEntity implements Serializable {
     /**
      * 订单状态
      */
-    private String status;
+    private Integer status;
 
     /**
      * 收货人名字
@@ -73,5 +73,5 @@ public class Order extends BaseEntity implements Serializable {
     /**
      * 是否评论，0是未评论，1是已评论
      */
-    private String isComment;
+    private Boolean isComment;
 }
