@@ -5,6 +5,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 @Data
 public class GoodsVO {
+    private Integer id;
+
     private String name;
     /**
      * 商店id
@@ -26,4 +28,12 @@ public class GoodsVO {
      * 商品状态
      */
     private Integer status;
+    /*
+     * 是否选中
+     */
+    private boolean selected;
+    /*
+     * 数量
+     */
+    private Integer num;
 }

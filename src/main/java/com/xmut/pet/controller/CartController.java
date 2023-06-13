@@ -1,9 +1,13 @@
 package com.xmut.pet.controller;
 
+import com.xmut.pet.Utils.JwtUtil;
+import com.xmut.pet.entity.User;
 import com.xmut.pet.service.CartService;
+import com.xmut.pet.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.catalina.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,12 +58,15 @@ public class CartController {
             @ApiImplicitParam(name = "cartId", dataType = "Integer", paramType = "query",value = "购物车id", required = true),
     })
     @RequestMapping(method = RequestMethod.POST,value = "/delete")
-    public Result delete( Integer cartId) {
+    public Result delete( Integer goodsId) {
         Result result = new Result();
+            Integer userId=1;
 
-        if (cartService.delete(cartId)) {
-            result.success("删除成功");
-        }
+
+                if (cartService.delete(goodsId,userId)) {
+                    result.success("删除成功");
+                }
+
         return result;
     }
     @ApiOperation(value = "获得购物车列表")
