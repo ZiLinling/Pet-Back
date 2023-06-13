@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface CartService extends IService<Cart> {
     boolean save(Integer userId,Integer goodsId);
-    boolean delete(Integer Id);
+    boolean delete(Integer goodsId,Integer userId);
     List<CartVO> getAllCart(Integer userId);
 
 }
