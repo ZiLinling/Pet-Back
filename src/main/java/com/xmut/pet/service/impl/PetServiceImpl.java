@@ -9,6 +9,8 @@ import com.xmut.pet.service.PetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -24,5 +26,15 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
         Page<petVO> page=new Page<>(pageNum,pageSize);
         return baseMapper.pageByBreedName(page,BreedName);
 
+    }
+    @Override
+    public int getCount(Integer id) {
+        QueryWrapper<Pet> queryWrapper=new QueryWrapper<>();
+        if(id == -1)
+        {
+            return this.list().size();
+        }
+        queryWrapper.eq("breed_id",id);
+        return this.list(queryWrapper).size();
     }
 }

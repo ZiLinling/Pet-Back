@@ -16,5 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PetService extends IService<Pet> {
     Page<petVO> page(Integer pageNum, Integer pageSize, String BreedName);
+    int getCount(Integer id);
 
 }

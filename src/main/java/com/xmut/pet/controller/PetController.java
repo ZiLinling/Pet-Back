@@ -87,6 +87,17 @@ public class PetController {
         }
         return result;
     }
+    @PostMapping("/getCount")
+    @ApiOperation(value = "查询宠物类别数量")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
+    })
+    public Result getCount(Integer id) {
+        Result result = new Result();
+        result.setData(petService.getCount(id));
+        result.success("2");
+        return result;
+    }
 
     //分页查询-page
     @ApiOperation(value="分页查询宠物记录")
