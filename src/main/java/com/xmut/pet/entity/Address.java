@@ -2,11 +2,11 @@ package com.xmut.pet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -51,7 +51,7 @@ public class Address extends BaseEntity implements Serializable {
     /**
      * 是否为默认地址(1为默认)
      */
-    private Byte isDefault;
+    private Boolean isDefault;
 
     /**
      * 用户id

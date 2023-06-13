@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,19 +28,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @PostMapping("/login")
-    @ApiOperation(value="用户登录")
-    public Result login(@RequestBody User user) {
-        Result result = new Result<>();
+    @ApiOperation(value = "用户登录")
+    public Result<String> login(@RequestBody User user) {
+        Result<String> result = new Result<>();
         user = userService.login(user);
         if (user == null) {
             result.fail("账号或密码错误,请重新登录");
         } else {
-            Map<String, Object> map = new HashMap<>();
-            map.put("userid", user.getId());
-            map.put("token", JwtUtil.generateToken(user));
+            result.setData(JwtUtil.generateToken(user));
             result.success("登录成功");
-            result.setData(map);
         }
         return result;
     }
@@ -73,10 +74,13 @@ public class UserController {
         return result;
     }
 
-    @GetMapping("/getById")
+    @GetMapping("/getUser")
     @ApiOperation(value = "获取用户信息")
-    public Result<User> getById(Integer id) {
+    public Result<User> getUser() {
+        Integer id = JwtUtil.getUserId(request.getHeader("token"));
         Result<User> result = new Result<>();
+        User user = userService.getById(id);
+        user.setPassword(null);
         result.success("获取成功");
         result.setData(userService.getById(id));
         return result;
