@@ -42,7 +42,7 @@ public class Store extends BaseEntity implements Serializable {
     /**
      * 商店描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 商店地址
