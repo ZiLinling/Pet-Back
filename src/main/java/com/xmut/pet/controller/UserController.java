@@ -7,13 +7,8 @@ import com.xmut.pet.entity.User;
 import com.xmut.pet.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,12 +73,12 @@ public class UserController {
         return result;
     }
 
-    @PostMapping("/getById")
-    @ApiOperation(value="获取用户信息")
-    public Result<User> getById(Integer userId) {
+    @GetMapping("/getById")
+    @ApiOperation(value = "获取用户信息")
+    public Result<User> getById(Integer id) {
         Result<User> result = new Result<>();
         result.success("获取成功");
-        result.setData(userService.getById(userId));
+        result.setData(userService.getById(id));
         return result;
     }
 
