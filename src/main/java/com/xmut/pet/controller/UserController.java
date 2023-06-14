@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>
@@ -49,13 +47,11 @@ public class UserController {
     @ApiOperation(value="用户注册")
     public Result register(@RequestBody User user) {
         Result result = new Result<>();
+        user.setStatus(1);
         user.setCreateTime(DateTool.getCurrTime());
         if (userService.register(user)) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("userid", user.getId());
-            map.put("token", JwtUtil.generateToken(user));
+            result.setData(JwtUtil.generateToken(user));
             result.success("注册成功,自动登录");
-            result.setData(map);
         } else {
             result.fail("注册失败,用户名重复");
         }
