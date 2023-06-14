@@ -3,6 +3,8 @@ package com.xmut.pet.service;
 import com.xmut.pet.entity.Breed;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BreedService extends IService<Breed> {
 
+    List<Breed> getBreed(Integer specie);
 }
