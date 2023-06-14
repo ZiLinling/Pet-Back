@@ -15,7 +15,7 @@ public class JwtUtil {
         Date end = new Date(currentTime);
         String token = "";
         token = JWT.create()
-                .withClaim("userid",user.getId())
+                .withClaim("userid", user.getId())
 //                .withClaim("username",user.getUsername())
                 .withIssuedAt(start)
                 .withExpiresAt(end)
@@ -23,17 +23,19 @@ public class JwtUtil {
         return token;
     }
 
-    static public Integer parseToken( String token ) {
-        JWTVerifier jwtVerifier=JWT.require(algorithm).build();
-        //        String s=jwtVerifier.verify(token).getClaims().toString();
-//        System.out.println(s);
-        return jwtVerifier.verify(token).getClaim("userid").asInt();
+    static public Integer parseToken(String token, String key) {
+        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+        return jwtVerifier.verify(token).getClaim(key).asInt();
     }
 
-    static public void checkToken(String token){
-        if(token==null)
-            token="";
-        JWTVerifier jwtVerifier=JWT.require(algorithm).build();
+    static public Integer getUserId(String token) {
+        return parseToken(token, "userid");
+    }
+
+    static public void checkToken(String token) {
+        if (token == null)
+            token = "";
+        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         jwtVerifier.verify(token);
     }
 }

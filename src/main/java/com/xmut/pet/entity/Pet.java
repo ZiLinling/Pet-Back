@@ -2,12 +2,12 @@ package com.xmut.pet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 /**
@@ -63,7 +63,7 @@ public class Pet extends BaseEntity implements Serializable {
     /**
      * 宠物状态
      */
-    private String status;
+    private Integer status;
 
     /**
      * 宠物图片

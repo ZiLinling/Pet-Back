@@ -13,7 +13,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object o) throws Exception{
         String token = req.getHeader("token");
         //在拦截器中设置允许跨域(拦截器需设置跨域)
-
         try{
             JwtUtil.checkToken(token);
             return true;

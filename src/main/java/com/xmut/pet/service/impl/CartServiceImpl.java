@@ -33,15 +33,16 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
             cart.setUserId(userId);
             cart.setGoodsId(goodsId);
             cart.setNum(1);
-            cart.setIsSelect(false);
+            cart.setSelected(false);
             this.save(cart);
         }
         return true;
     }
 
     @Override
-    public boolean delete(Integer Id){
-        this.removeById(Id);
+    public boolean delete(Integer goodsId,Integer userId){
+        Cart cart =this.baseMapper.isExist(goodsId,userId);
+        this.removeById(cart.getId());
         return true;
     }
     @Override
@@ -49,13 +50,16 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         List<CartVO> cartVO = new ArrayList<>();
         cartVO=this.baseMapper.getCartByUserId(userId);
         List<GoodsVO> goodsVOList= this.baseMapper.selectByUserId(userId);
-
+        Integer num=0;
         for (CartVO cartItem : cartVO) {
             List<GoodsVO> goodsVOItem=new ArrayList<>();
             for (GoodsVO item : goodsVOList){
+
                 if(item.getStoreId()==cartItem.getStoreId()){
+                    item.setId(num);
                //     cartItem.setGoodsVOList(item);
                     goodsVOItem.add(item);
+                    num++;
                 }
             }
             cartItem.setGoodsVOList(goodsVOItem);

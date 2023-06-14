@@ -1,6 +1,7 @@
 package com.xmut.pet.mapper;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.xmut.pet.VO.CartVO;
@@ -36,12 +37,13 @@ import org.apache.ibatis.annotations.*;
 public interface CartMapper extends BaseMapper<Cart> {
 
 
-    @Select("SELECT DISTINCT goods.store_id,store.name FROM cart,goods,store WHERE user_id = #{ userId } and goods.id=cart.goods_id AND store.id=goods.store_id")
+    @Select("SELECT DISTINCT store.id AS storeId,store.name FROM cart,goods,store WHERE user_id = #{ userId } and goods.id=cart.goods_id AND store.id=goods.store_id")
     List<CartVO> getCartByUserId(Integer userId);
 
 
-    @Select("SELECT name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")
+    @Select("SELECT  num,selected,name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")
     List<GoodsVO> selectByUserId(Integer userId);
+
 
     @Select("SELECT * FROM cart WHERE goods_id=#{goodsId} AND user_id= #{ userId }")
     Cart isExist(Integer userId,Integer goodsId);
