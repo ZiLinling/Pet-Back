@@ -36,7 +36,7 @@ public class Breed extends BaseEntity implements Serializable {
     /**
      * 宠物物种(1是猫,2是狗,3是其他)
      */
-    private String specie;
+    private Integer specie;
 
     /**
      * 状态

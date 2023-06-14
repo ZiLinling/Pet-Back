@@ -98,6 +98,17 @@ public class PetController {
         result.success("2");
         return result;
     }
+    @GetMapping("/getCountBySpecie")
+    @ApiOperation(value = "查询宠物种类数量")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物种类数量", required = true),
+    })
+    public Result getCountBySpecie(Integer specie) {
+        Result result = new Result();
+        result.setData(petService.getCountBySpecie(specie));
+        result.success();
+        return result;
+    }
 
     //分页查询-page
     @ApiOperation(value="分页查询宠物记录")
@@ -111,9 +122,10 @@ public class PetController {
         String breedName = map.get("breedName").toString();
         Integer pageNum = (Integer) map.get("pageNum");
         Integer pageSize = (Integer) map.get("pageSize");
+        Integer specie = Integer.parseInt((String) map.get("specie"));
         Result result = new Result();
         result.success("分页查询成功");
-        result.setData(petService.page(pageNum,pageSize,breedName));
+        result.setData(petService.page(pageNum,pageSize,breedName,specie));
         return result;
     }
 

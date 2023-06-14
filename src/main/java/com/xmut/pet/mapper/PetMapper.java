@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -18,5 +20,14 @@ import org.apache.ibatis.annotations.Select;
 public interface PetMapper extends BaseMapper<Pet> {
     @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id AND breed.name = '${breedName}'")
     Page<petVO> pageByBreedName(@Param("page") Page<petVO> page , @Param("breedName") String breedName);
+
+    @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id")
+    Page<petVO> pageByAllBreedName(@Param("page") Page<petVO> page);
+
+    @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id AND breed.specie ='${specie}'")
+    Page<petVO> pageBySpecie(@Param("page") Page<petVO> page,@Param("specie") Integer specie);
+
+    @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id AND breed.specie ='${specie}'")
+    List<petVO> listBySpecie(@Param("specie") Integer specie);
 
 }
