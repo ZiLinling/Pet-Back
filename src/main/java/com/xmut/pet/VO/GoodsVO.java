@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 public class GoodsVO {
     private Integer id;
 
+    private Integer goodsId;
+
     private String name;
     /**
      * 商店id

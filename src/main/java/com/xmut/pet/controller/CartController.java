@@ -65,7 +65,7 @@ public class CartController {
     @RequestMapping(method = RequestMethod.POST,value = "/delete")
     public Result delete( Integer goodsId) {
         Result result = new Result();
-            Integer userId=1;
+        Integer userId = JwtUtil.getUserId(request.getHeader("token"));
 
 
                 if (cartService.delete(goodsId,userId)) {
