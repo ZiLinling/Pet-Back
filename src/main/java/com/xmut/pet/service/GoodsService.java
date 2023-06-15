@@ -1,8 +1,9 @@
 package com.xmut.pet.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xmut.pet.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xmut.pet.entity.Goods;
+import com.xmut.pet.entity.Result;
 
 /**
  * <p>
@@ -14,8 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface GoodsService extends IService<Goods> {
 
-    Page<Goods> page(Integer pageNum, Integer pageSize, String key, Integer category, Integer status);
-
-    Long count(String key, Integer category, Integer status);
+    Result<Page<Goods>> page(Integer pageNum, Integer pageSize, String key, Integer category, Integer status);
 
 }
