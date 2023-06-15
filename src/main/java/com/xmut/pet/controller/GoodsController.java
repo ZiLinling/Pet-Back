@@ -98,10 +98,8 @@ public class GoodsController {
             @ApiImplicitParam(name = "status", dataType = "Integer", paramType = "query", value = "状态"),
     })
     public Result<Page<Goods>> getList(Integer pageNum, Integer pageSize, String key, Integer category, Integer status) {
-        Result<Page<Goods>> result = new Result<>();
+        Result<Page<Goods>> result = goodsService.page(pageNum, pageSize, key, category, status);
         result.success("商品:列表请求成功");
-        result.setData(goodsService.page(pageNum, pageSize, key, category, status));
-        result.put("total", goodsService.count(key, category, status));
         return result;
     }
 }
