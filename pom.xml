@@ -34,6 +34,14 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--Java工具库-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.20</version>
+        </dependency>
+        <!--Java工具库-->
+
         <!-- lombok依赖-->
         <dependency>
             <groupId>org.projectlombok</groupId>

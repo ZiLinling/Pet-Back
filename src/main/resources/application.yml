@@ -7,6 +7,7 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+      static-path-pattern: /**
 
 mybatis-plus:
   configuration:
@@ -23,3 +24,6 @@ logging:
     com.xmut.pet.mapper.* : debug
 
 
+files:
+  upload:
+    path: src/main/resources/static/images/

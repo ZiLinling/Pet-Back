@@ -1,8 +1,9 @@
 package com.xmut.pet.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xmut.pet.entity.Favor;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xmut.pet.entity.Favor;
+import com.xmut.pet.entity.Result;
 
 
 /**
@@ -15,8 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface FavorService extends IService<Favor> {
 
-    Page<Favor> page(Integer pageNum, Integer pageSize, Integer userId, Integer type);
-
-    Long count(Integer userId, Integer type);
+    Result<Page<Favor>> page(Integer pageNum, Integer pageSize, Integer userId, Integer type);
 
 }
