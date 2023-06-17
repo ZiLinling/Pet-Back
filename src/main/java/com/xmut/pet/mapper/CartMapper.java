@@ -41,9 +41,12 @@ public interface CartMapper extends BaseMapper<Cart> {
     List<CartVO> getCartByUserId(Integer userId);
 
 
-    @Select("SELECT  num,selected,name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")
+    @Select("SELECT  goods.id AS goodsId,num,selected,name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")
     List<GoodsVO> selectByUserId(Integer userId);
 
+
+    @Select("SELECT id FROM cart WHERE goods_id = #{ goodsId } AND user_id= #{ userId }")
+    Integer getId(Integer goodsId,Integer userId);
 
     @Select("SELECT * FROM cart WHERE goods_id=#{goodsId} AND user_id= #{ userId }")
     Cart isExist(Integer userId,Integer goodsId);

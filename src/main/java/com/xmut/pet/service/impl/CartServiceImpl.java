@@ -41,8 +41,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
 
     @Override
     public boolean delete(Integer goodsId,Integer userId){
-        Cart cart =this.baseMapper.isExist(goodsId,userId);
-        this.removeById(cart.getId());
+        System.out.println(this.baseMapper.getId(goodsId,userId));
+        Integer id =this.baseMapper.getId(goodsId,userId);
+        this.removeById(id);
         return true;
     }
     @Override

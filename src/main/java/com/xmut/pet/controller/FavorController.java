@@ -38,10 +38,8 @@ public class FavorController {
             //type:1-商品 2-宠物 3-商店
     })
     public Result<Page<Favor>> getListByUserId(Integer pageNum, Integer pageSize, Integer userId, Integer type) {
-        Result<Page<Favor>> result = new Result<>();
+        Result<Page<Favor>> result = favorService.page(pageNum, pageSize, userId, type);
         result.success("商品:列表请求成功");
-        result.setData(favorService.page(pageNum, pageSize, userId, type));
-        result.put("total", favorService.count(userId, type));
         return result;
     }
 }
