@@ -1,10 +1,10 @@
 package com.xmut.pet.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xmut.pet.entity.OrderItem;
 import com.xmut.pet.mapper.OrderItemMapper;
 import com.xmut.pet.service.OrderItemService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +22,15 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public List<OrderItem> getListByStoreId(Integer storeId) {
-        QueryWrapper<OrderItem> queryWrapper=new QueryWrapper();
-        queryWrapper.eq("store_id",storeId);
+        QueryWrapper<OrderItem> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("store_id", storeId);
         return this.list(queryWrapper);
+    }
+
+    @Override
+    public boolean generate(OrderItem orderItem) {
+
+        this.save(orderItem);
+        return true;
     }
 }

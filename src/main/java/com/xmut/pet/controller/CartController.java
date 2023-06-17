@@ -1,20 +1,15 @@
 package com.xmut.pet.controller;
 
 import com.xmut.pet.Utils.JwtUtil;
-import com.xmut.pet.entity.User;
+import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.CartService;
-import com.xmut.pet.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.catalina.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.xmut.pet.entity.Cart;
-import com.xmut.pet.entity.Result;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,15 +39,13 @@ public class CartController {
     public Result save( Integer goodsId){
         Result result = new Result();
         Integer userId = JwtUtil.getUserId(request.getHeader("token"));
-        if(userId==null||goodsId==null){
-            result.addError("某个id为空");
-        }
-        else{
+        if (userId == null) {
+            result.fail("新增失败");
+        } else {
 
-            if(cartService.save(userId,goodsId)){
+            if (cartService.save(userId, goodsId)) {
                 result.success("新增成功");
-            }
-            else {
+            } else {
                 result.fail("新增失败");
             }
         }
