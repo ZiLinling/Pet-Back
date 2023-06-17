@@ -1,5 +1,6 @@
 package com.xmut.pet.controller;
 
+import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.entity.Address;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.AddressService;
@@ -7,11 +8,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,31 +30,39 @@ public class AddressController {
 
     @Autowired
     private AddressService addressService;
-
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/list")
     @ApiOperation(value="获取用户地址列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query",value = "用户id", required = true),
-    })
-    public Result<List<Address>> getListByUserId(Integer userId)
+    public Result<List<Address>> getListByUserId()
     {
+        Integer id = JwtUtil.getUserId(request.getHeader("token"));
         Result<List<Address>> result = new Result();
-        List<Address> addressList=new ArrayList<>();
         result.success("地址:列表请求成功");
-        result.setData(addressList);
-        System.out.println(result.getStatusCode());
+        result.setData(addressService.getListByUserId(id));
         return result;
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     @ApiOperation(value="添加用户地址")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "address", dataType = "Address", paramType = "body",value = "地址信息", required = true),
     })
-    public Result add(Address address)
+    public Result add(@RequestBody Address address)
     {
         Result result = new Result();
+        Integer id = JwtUtil.getUserId(request.getHeader("token"));
+        if(address.getIsDefault())
+        {
+            List<Address> addressList=addressService.getListByUserId(id);
+            for (Address item : addressList)
+            {
+                item.setIsDefault(false);
+                addressService.updateById(item);
+            }
+        }
+        address.setUserId(id);
         if (addressService.save(address)) {
             result.success("地址:添加成功");
         } else {
@@ -63,14 +71,24 @@ public class AddressController {
         return result;
     }
 
-    @GetMapping("/update")
+    @PostMapping("/update")
     @ApiOperation(value="更新用户地址")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "address", dataType = "Address", paramType = "body",value = "地址信息", required = true),
     })
-    public Result update(Address address)
+    public Result update(@RequestBody Address address)
     {
         Result result = new Result();
+        if(address.getIsDefault())
+        {
+            Integer id = JwtUtil.getUserId(request.getHeader("token"));
+            List<Address> addressList=addressService.getListByUserId(id);
+            for (Address item : addressList)
+            {
+                item.setIsDefault(false);
+                addressService.updateById(item);
+            }
+        }
         if (addressService.updateById(address)) {
             result.success("地址:更新成功");
         } else {
@@ -79,7 +97,7 @@ public class AddressController {
         return result;
     }
 
-    @GetMapping("/delete")
+    @PostMapping ("/delete")
     @ApiOperation(value="删除用户地址")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "地址id", required = true),
