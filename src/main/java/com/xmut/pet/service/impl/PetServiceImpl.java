@@ -3,6 +3,7 @@ package com.xmut.pet.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.VO.petVO;
+import com.xmut.pet.entity.Breed;
 import com.xmut.pet.entity.Pet;
 import com.xmut.pet.mapper.PetMapper;
 import com.xmut.pet.service.PetService;
@@ -35,6 +36,12 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
         return baseMapper.pageByBreedName(page,BreedName);//返回按品种分类的宠物信息
 
     }
+
+    @Override
+    public Page<petVO> pageByPetName(Integer pageNum, Integer pageSize, String petName) {
+        Page<petVO> page=new Page<>(pageNum,pageSize);
+        return baseMapper.pageByName(page,petName);
+    }
     @Override
     public int getCount(Integer id) {
         QueryWrapper<Pet> queryWrapper=new QueryWrapper<>();
@@ -49,5 +56,10 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
     @Override
     public int getCountBySpecie(Integer specie) {
         return baseMapper.listBySpecie(specie).size();
+    }
+
+    @Override
+    public int getCountByPetName(String petName) {
+        return baseMapper.listByName(petName).size();
     }
 }

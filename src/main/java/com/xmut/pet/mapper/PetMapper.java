@@ -21,6 +21,12 @@ public interface PetMapper extends BaseMapper<Pet> {
     @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id AND breed.name = '${breedName}'")
     Page<petVO> pageByBreedName(@Param("page") Page<petVO> page , @Param("breedName") String breedName);
 
+    @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id AND breed.name like '%${petName}%'")
+    Page<petVO> pageByName(@Param("page") Page<petVO> page , @Param("petName") String petName);
+
+    @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id AND breed.name like '%${petName}%'")
+    List<petVO> listByName(@Param("petName") String petName);
+
     @Select("SELECT pet.*,breed.name as breedName,breed.specie FROM pet,breed WHERE pet.breed_id = breed.id")
     Page<petVO> pageByAllBreedName(@Param("page") Page<petVO> page);
 

@@ -69,4 +69,8 @@ public class Pet extends BaseEntity implements Serializable {
      * 宠物图片
      */
     private String img;
+    /**
+     * 商店id
+     */
+    private Integer storeId;
 }
