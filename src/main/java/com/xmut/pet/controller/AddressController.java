@@ -9,10 +9,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,9 +32,8 @@ public class AddressController {
     private HttpServletRequest request;
 
     @GetMapping("/list")
-    @ApiOperation(value="获取用户地址列表")
-    public Result<List<Address>> getListByUserId()
-    {
+    @ApiOperation(value = "获取用户地址列表")
+    public Result<List<Address>> getListByUserId() {
         Integer id = JwtUtil.getUserId(request.getHeader("token"));
         Result<List<Address>> result = new Result();
         result.success("地址:列表请求成功");
@@ -44,16 +41,25 @@ public class AddressController {
         return result;
     }
 
+    @GetMapping("/getDefault")
+    @ApiOperation(value = "获取用户地址列表")
+    public Result<Address> getListByDefault() {
+        Integer id = JwtUtil.getUserId(request.getHeader("token"));
+        Result<Address> result = new Result();
+        result.success("地址:列表请求成功");
+        result.setData(addressService.getAddressByDefault(id));
+        return result;
+    }
+
     @PostMapping("/add")
-    @ApiOperation(value="添加用户地址")
+    @ApiOperation(value = "添加用户地址")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "address", dataType = "Address", paramType = "body",value = "地址信息", required = true),
+            @ApiImplicitParam(name = "address", dataType = "Address", paramType = "body", value = "地址信息", required = true),
     })
-    public Result add(@RequestBody Address address)
-    {
+    public Result add(@RequestBody Address address) {
         Result result = new Result();
         Integer id = JwtUtil.getUserId(request.getHeader("token"));
-        if(address.getIsDefault())
+        if (address.getIsDefault())
         {
             List<Address> addressList=addressService.getListByUserId(id);
             for (Address item : addressList)

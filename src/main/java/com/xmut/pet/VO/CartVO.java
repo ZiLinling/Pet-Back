@@ -7,6 +7,8 @@ import java.util.List;
 
 @Data
 public class CartVO {
+
+
     private String name;
     //商店名称
     private Integer storeId;

@@ -38,4 +38,10 @@ public class GoodsVO {
      * 数量
      */
     private Integer num;
+
+    /*
+     * 购物车id
+     */
+    private Integer cartId;
+
 }

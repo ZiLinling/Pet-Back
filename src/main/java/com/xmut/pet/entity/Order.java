@@ -2,6 +2,7 @@ package com.xmut.pet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
  * @since 2023-06-08 09:58:59
  */
 @Data
+@TableName("`order`")
 @ApiModel("Order")
 public class Order extends BaseEntity implements Serializable {
 

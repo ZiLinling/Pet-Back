@@ -35,9 +35,9 @@ public class OrderItemController {
 //        orderItem.setCreateTime(DateTool.getCurrTime());
         if (orderItemService.generate(orderItem)) {
 
-            result.success("订单生成成功");
+            result.success("订单信息生成成功");
         } else {
-            result.fail("订单生成失败");
+            result.fail("订单信息生成失败");
         }
         return result;
     }

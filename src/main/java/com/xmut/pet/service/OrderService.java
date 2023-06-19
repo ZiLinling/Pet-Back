@@ -17,5 +17,5 @@ public interface OrderService extends IService<Order> {
 
     List<Order> getListByUserId(Integer userId);
 
-    boolean generate(Order order);
+    Integer generate(Order order);
 }
