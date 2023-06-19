@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.entity.Favor;
 import com.xmut.pet.entity.Result;
 
+import java.util.List;
+
 
 /**
  * <p>
@@ -16,6 +18,9 @@ import com.xmut.pet.entity.Result;
  */
 public interface FavorService extends IService<Favor> {
 
-    Result<Page<Favor>> page(Integer pageNum, Integer pageSize, Integer userId, Integer type);
+    Result<List> page(Integer pageNum, Integer pageSize, Integer userId, Integer type);
 
+    List getItem(Page<Favor> page, Integer type);
+
+    Favor check(Integer userId, Integer itemId, Integer type);
 }
