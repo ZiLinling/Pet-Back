@@ -1,14 +1,13 @@
 package com.xmut.pet.mapper;
 
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xmut.pet.VO.CartVO;
 import com.xmut.pet.VO.GoodsVO;
 import com.xmut.pet.entity.Cart;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -37,18 +36,20 @@ import org.apache.ibatis.annotations.*;
 public interface CartMapper extends BaseMapper<Cart> {
 
 
-    @Select("SELECT DISTINCT store.id AS storeId,store.name FROM cart,goods,store WHERE user_id = #{ userId } and goods.id=cart.goods_id AND store.id=goods.store_id")
+    @Select("SELECT DISTINCT  store.id AS storeId,store.name FROM cart,goods,store WHERE user_id = #{ userId } and goods.id=cart.goods_id AND store.id=goods.store_id")
     List<CartVO> getCartByUserId(Integer userId);
 
 
-    @Select("SELECT  goods.id AS goodsId,num,selected,name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")
+    @Select("SELECT cart.id AS cartId ,goods.id AS goodsId,num,selected,name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")
     List<GoodsVO> selectByUserId(Integer userId);
 
 
     @Select("SELECT id FROM cart WHERE goods_id = #{ goodsId } AND user_id= #{ userId }")
-    Integer getId(Integer goodsId,Integer userId);
+    Integer getId(Integer goodsId, Integer userId);
 
     @Select("SELECT * FROM cart WHERE goods_id=#{goodsId} AND user_id= #{ userId }")
-    Cart isExist(Integer userId,Integer goodsId);
+    Cart isExist(Integer userId, Integer goodsId);
 
+    @Select("SELECT * FROM cart WHERE user_id= #{userId}")
+    List<Cart> getByUserId(Integer userId);
 }

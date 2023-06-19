@@ -3,11 +3,11 @@ package com.xmut.pet.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.io.Serializable;
 
 
 /**
@@ -45,4 +45,12 @@ public class OrderItem extends BaseEntity implements Serializable {
      * 0为宠物,1为周边
      */
     private Integer type;
+    /**
+     * 0为宠物,1为周边
+     */
+    private Integer goodsId;
+    /**
+     * 0为宠物,1为周边
+     */
+    private Integer OrderId;
 }

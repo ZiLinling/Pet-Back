@@ -6,6 +6,7 @@ import com.xmut.pet.service.OrderService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-
+    @Autowired
     private OrderService orderService;
 
     @PostMapping("/generate")
@@ -30,11 +31,11 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "order", dataType = "Order", paramType = "body", value = "订单信息", required = true),
     })
-    public Result register(@RequestBody Order order) {
+    public Result generateOrder(@RequestBody Order order) {
         Result result = new Result<>();
-        if (orderService.generate(order)) {
-
-
+        Integer orderId = orderService.generate(order);
+        if (orderId != null) {
+            result.setData(orderId);
             result.success("订单生成成功");
         } else {
             result.fail("订单生成失败");
