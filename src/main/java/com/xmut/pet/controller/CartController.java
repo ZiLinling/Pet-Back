@@ -29,14 +29,13 @@ public class CartController {
 
     @Autowired
     private HttpServletRequest request;
-    @ApiOperation(value = "新增购物车")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query",value = "用户id", required = true),
-            @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query",value = "商品id", required = true),
-    })
 
     @RequestMapping(method = RequestMethod.POST,value = "/save")
-    public Result save( Integer goodsId){
+    @ApiOperation(value = "新增购物车")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query",value = "商品id", required = true),
+    })
+    public Result save(Integer goodsId){
         Result result = new Result();
         Integer userId = JwtUtil.getUserId(request.getHeader("token"));
         if (userId == null) {
@@ -51,12 +50,13 @@ public class CartController {
         }
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/delete")
     @ApiOperation(value = "移除购物车")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cartId", dataType = "Integer", paramType = "query",value = "购物车id", required = true),
+            @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query",value = "商品id", required = true),
     })
-    @RequestMapping(method = RequestMethod.POST,value = "/delete")
-    public Result delete( Integer goodsId) {
+    public Result delete(Integer goodsId) {
         Result result = new Result();
         Integer userId = JwtUtil.getUserId(request.getHeader("token"));
 
@@ -67,11 +67,9 @@ public class CartController {
 
         return result;
     }
-    @ApiOperation(value = "获得购物车列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query",value = "用户id", required = true),
-    })
+
     @RequestMapping(method = RequestMethod.GET, value = "/getcart")
+    @ApiOperation(value = "获得购物车列表")
     public Result pageCart() {
         Result result = new Result();
         if(request.getHeader("token")!=null){
