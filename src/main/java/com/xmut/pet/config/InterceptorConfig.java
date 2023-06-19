@@ -1,6 +1,7 @@
 package com.xmut.pet.config;
 
 import com.xmut.pet.Utils.AuthInterceptor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
