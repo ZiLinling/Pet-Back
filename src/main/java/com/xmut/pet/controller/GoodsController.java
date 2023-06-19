@@ -102,4 +102,17 @@ public class GoodsController {
         result.success("商品:列表请求成功");
         return result;
     }
+
+    @GetMapping("/searchList")
+    @ApiOperation(value = "分页获取商品列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "页码", required = true),
+            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "页大小", required = true),
+            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "搜索周边商品名称"),
+    })
+    public Result<Page<Goods>> searchList(Integer pageNum, Integer pageSize, String name) {
+        Result<Page<Goods>> result = goodsService.pageByGoodsName(pageNum, pageSize, name);
+        result.success("商品:列表请求成功");
+        return result;
+    }
 }

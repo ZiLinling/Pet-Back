@@ -17,4 +17,5 @@ public interface GoodsService extends IService<Goods> {
 
     Result<Page<Goods>> page(Integer pageNum, Integer pageSize, String key, Integer category, Integer status);
 
+    Result<Page<Goods>> pageByGoodsName(Integer pageNum, Integer pageSize, String name);
 }
