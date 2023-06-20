@@ -23,12 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/breed")
 public class BreedController {
+
     @Autowired
     private BreedService breedService;
+
     @GetMapping("/getBreed")
     @ApiOperation(value = "查询宠物类别")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别", required = true),
+            @ApiImplicitParam(name = "specie", dataType = "Integer", paramType = "query",value = "宠物类别", required = true),
     })
     public Result getBreed(Integer specie) {
         Result result = new Result();

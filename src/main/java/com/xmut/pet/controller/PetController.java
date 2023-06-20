@@ -95,7 +95,7 @@ public class PetController {
     @GetMapping("/getPetByName")
     @ApiOperation(value = "查询宠物类别数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
     })
     public Result getPetByName(Integer pageNum, Integer pageSize, String petName) {
         Result result = new Result();
@@ -120,7 +120,7 @@ public class PetController {
     @GetMapping("/getCountBySpecie")
     @ApiOperation(value = "查询宠物种类数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物种类数量", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
     })
     public Result getCountBySpecie(Integer specie) {
         Result result = new Result();
@@ -131,12 +131,12 @@ public class PetController {
 
     //分页查询-page
     @ApiOperation(value="分页查询宠物记录")
+    @RequestMapping(method = RequestMethod.POST,value = "/page")
     @ApiImplicitParams({
             @ApiImplicitParam(name="pageNum",required=true,paramType="query",value="当前页码"),
             @ApiImplicitParam(name="pageSize",required=true,paramType="query",value="每页显示条数"),
             @ApiImplicitParam(name="name",paramType="query",value="宠物类别关键字，可以为空")
     })
-    @RequestMapping(method = RequestMethod.POST,value = "/page")
     public Result page(@RequestBody Map map){
         String breedName = map.get("breedName").toString();
         Integer pageNum = (Integer) map.get("pageNum");

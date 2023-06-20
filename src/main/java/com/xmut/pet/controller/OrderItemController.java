@@ -29,7 +29,7 @@ public class OrderItemController {
     @PostMapping("/generate")
     @ApiOperation(value = "生成订单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "order", dataType = "Order", paramType = "body", value = "订单信息", required = true),
+            @ApiImplicitParam(name = "orderItem", dataType = "OrderItem", paramType = "body", value = "订单物品", required = true),
     })
     public Result generateOrderItem(@RequestBody OrderItem orderItem) {
         Result result = new Result<>();

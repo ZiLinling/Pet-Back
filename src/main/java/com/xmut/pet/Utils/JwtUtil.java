@@ -33,8 +33,9 @@ public class JwtUtil {
     }
 
     static public void checkToken(String token) {
-        if (token == null)
+        if (token == null) {
             token = "";
+        }
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         jwtVerifier.verify(token);
     }
