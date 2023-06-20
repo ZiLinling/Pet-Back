@@ -48,9 +48,9 @@ public class OrderItem extends BaseEntity implements Serializable {
     /**
      * 0为宠物,1为周边
      */
-    private Integer goodsId;
-    /**
-     * 0为宠物,1为周边
-     */
     private Integer OrderId;
+    /**
+     * 商品单价
+     */
+    private Integer price;
 }
