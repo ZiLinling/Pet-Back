@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -104,6 +105,15 @@ public class StoreController {
         return result;
     }
 
+    @GetMapping("/list")
+    @ApiOperation(value = "获取商店列表")
+    public Result<List<Store>> list() {
+        Result<List<Store>> result = new Result<>();
+        result.success("商店:列表请求成功");
+        result.setData(storeService.list());
+        return result;
+    }
+
 
     @ApiOperation(value="分页查询商店宠物记录")
     @ApiImplicitParams({
@@ -117,7 +127,7 @@ public class StoreController {
         Integer a = 1;
         Integer pageNum = (Integer) map.get("pageNum");
         Integer pageSize = (Integer) map.get("pageSize");
-        Integer storeId = Integer.parseInt((String) map.get("storeId"));
+        Integer storeId = (Integer)(map.get("storeId"));
         Integer type =(Integer) map.get("type");
         Result result = new Result();
         result.success("分页查询成功");

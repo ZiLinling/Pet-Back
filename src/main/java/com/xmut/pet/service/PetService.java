@@ -18,7 +18,9 @@ public interface PetService extends IService<Pet> {
     Page<petVO> page(Integer pageNum, Integer pageSize, String BreedName, Integer specie);
 
     Page<petVO> pageByPetName(Integer pageNum, Integer pageSize, String petName);
+
     int getCount(Integer id);
+
     int getCountBySpecie(Integer specie);
 
     int getCountByPetName(String petName);

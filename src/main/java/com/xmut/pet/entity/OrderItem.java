@@ -52,5 +52,5 @@ public class OrderItem extends BaseEntity implements Serializable {
     /**
      * 0为宠物,1为周边
      */
-    private Integer OrderId;
+    private Integer orderId;
 }

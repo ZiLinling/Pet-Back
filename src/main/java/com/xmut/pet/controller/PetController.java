@@ -117,6 +117,8 @@ public class PetController {
         result.success("查询成功");
         return result;
     }
+
+
     @GetMapping("/getCountBySpecie")
     @ApiOperation(value = "查询宠物种类数量")
     @ApiImplicitParams({

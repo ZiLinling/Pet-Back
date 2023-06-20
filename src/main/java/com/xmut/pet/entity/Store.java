@@ -58,4 +58,8 @@ public class Store extends BaseEntity implements Serializable {
      * 商店图片
      */
     private String img;
+
+    private Double longitude;
+
+    private Double latitude;
 }
