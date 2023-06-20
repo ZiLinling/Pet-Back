@@ -49,7 +49,7 @@ public class ResourceController {
         //存储到设备
         File uploadParentFile = new File(fileUploadPath);
         fileUploadPath = uploadParentFile.getAbsolutePath();
-        String uploadPath = fileUploadPath + "\\" + directory + "\\";
+        String uploadPath = fileUploadPath + "/" + directory + "/";
 //        System.out.println(fileUploadPath);
         if (!uploadParentFile.exists()) {
             uploadParentFile.mkdir();
@@ -71,7 +71,7 @@ public class ResourceController {
             @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path",value = "文件夹", required = true),
     })
     public void download(@PathVariable String fileUUID, @PathVariable String directory, HttpServletResponse response) throws IOException {
-        File uploadFile = new File(fileUploadPath + "\\" + directory + "\\" + fileUUID);
+        File uploadFile = new File(fileUploadPath + "/" + directory + "/" + fileUUID);
         ServletOutputStream outputStream = response.getOutputStream();
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUUID, "UTF-8"));
         response.setContentType("application/octet-stream");
