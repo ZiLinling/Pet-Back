@@ -1,19 +1,23 @@
 package com.xmut.pet.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.VO.CartVO;
 import com.xmut.pet.VO.GoodsVO;
 import com.xmut.pet.entity.Cart;
 import com.xmut.pet.mapper.CartMapper;
 import com.xmut.pet.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Zi
@@ -21,7 +25,8 @@ import java.util.List;
  */
 @Service
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements CartService {
-
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public boolean save(Integer userId, Integer goodsId, Integer num) {
@@ -42,7 +47,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     }
 
     @Override
-    public boolean delete(List<String> idList) {
+    public boolean delete(String ids) {
+        Integer userId = JwtUtil.getUserId(request.getHeader("token"));
+        List<String> idList = Arrays.asList(ids.split(","));
         for (String id : idList) {
             this.removeById(id);
         }

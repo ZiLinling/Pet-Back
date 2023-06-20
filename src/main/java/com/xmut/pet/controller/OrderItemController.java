@@ -6,6 +6,7 @@ import com.xmut.pet.service.OrderItemService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/orderItem")
 public class OrderItemController {
+    @Autowired
     private OrderItemService orderItemService;
 
     @PostMapping("/generate")
@@ -29,7 +31,7 @@ public class OrderItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "order", dataType = "Order", paramType = "body", value = "订单信息", required = true),
     })
-    public Result register(@RequestBody OrderItem orderItem) {
+    public Result generateOrderItem(@RequestBody OrderItem orderItem) {
         Result result = new Result<>();
 //        orderItem.setStatus(1);
 //        orderItem.setCreateTime(DateTool.getCurrTime());

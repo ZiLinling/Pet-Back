@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * <p>
@@ -62,10 +60,7 @@ public class CartController {
     @RequestMapping(method = RequestMethod.POST, value = "/delete")
     public Result delete(String ids) {
         Result result = new Result();
-        Integer userId = JwtUtil.getUserId(request.getHeader("token"));
-        List<String> List = Arrays.asList(ids.split(","));
-        System.out.println(List);
-        if (cartService.delete(List)) {
+        if (cartService.delete(ids)) {
             result.success("删除成功");
         }
         return result;
