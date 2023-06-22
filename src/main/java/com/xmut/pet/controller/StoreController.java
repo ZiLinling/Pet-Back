@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -89,6 +90,7 @@ public class StoreController {
         return result;
     }
 
+
     //分页获取商店列表
     @GetMapping("/getList")
     @ApiOperation(value = "分页获取商店列表")
@@ -100,11 +102,45 @@ public class StoreController {
     })
     public Result<Page<Store>> getList(Integer pageNum, Integer pageSize, String key, Integer status) {
         Result<Page<Store>> result = new Result<>();
-        result.success("商店:列表请求成功");
+        result.success("商品:列表请求成功");
         result.setData(storeService.page(pageNum, pageSize, key, status));
         result.put("total", storeService.count(key, status));
         return result;
     }
 
 
+    @GetMapping("/list")
+    @ApiOperation(value = "获取商店列表")
+    public Result<List<Store>> list() {
+        Result<List<Store>> result = new Result<>();
+        result.success("商店:列表请求成功");
+        result.setData(storeService.list());
+        return result;
+    }
+
+
+    @ApiOperation(value = "分页查询商店宠物记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", required = true, paramType = "query", value = "当前页码"),
+            @ApiImplicitParam(name = "pageSize", required = true, paramType = "query", value = "每页显示条数"),
+            @ApiImplicitParam(name = "storeId", paramType = "query", value = "商店Id"),
+            @ApiImplicitParam(name = "type", paramType = "query", value = "判断是宠物还是周边商品，0是宠物，1是周边商品")
+    })
+    @RequestMapping(method = RequestMethod.POST, value = "/pageByStoreId")
+    public Result pageByStoreId(@RequestBody Map map) {
+        Integer a = 1;
+        Integer pageNum = (Integer) map.get("pageNum");
+        Integer pageSize = (Integer) map.get("pageSize");
+        Integer storeId = (Integer) (map.get("storeId"));
+        Integer type = (Integer) map.get("type");
+        Result result = new Result();
+        result.success("分页查询成功");
+        result.setData(storeService.pageByStoreId(pageNum, pageSize, storeId, type));
+        if (type == 0) {
+            result.put("total", storeService.countByPet(storeId, a));
+        } else {
+            result.put("total", storeService.countByGoods(storeId, a));
+        }
+        return result;
+    }
 }

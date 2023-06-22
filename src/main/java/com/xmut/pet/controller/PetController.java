@@ -3,6 +3,7 @@ package com.xmut.pet.controller;
 import com.xmut.pet.entity.Pet;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.PetService;
+import com.xmut.pet.service.StoreService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -25,18 +26,21 @@ public class PetController {
 
     @Autowired
     private PetService petService;
-
+    @Autowired
+    private StoreService storeService;
 
     //查询宠物信息
     @GetMapping("/getById")
     @ApiOperation(value = "获取宠物信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "宠物id", required = true),
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "宠物id", required = true),
     })
     public Result<Pet> getById(Integer id) {
         Result<Pet> result = new Result<>();
+        Pet pet = petService.getById(id);
+        pet.put("store", storeService.getById(pet.getStoreId()));
         result.success("宠物:获取成功");
-        result.setData(petService.getById(id));
+        result.setData(pet);
         return result;
     }
 
@@ -87,10 +91,25 @@ public class PetController {
         }
         return result;
     }
+
+    @GetMapping("/getPetByName")
+    @ApiOperation(value = "查询宠物类别数量")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body", value = "宠物类别数量", required = true),
+    })
+    public Result getPetByName(Integer pageNum, Integer pageSize, String petName) {
+        Result result = new Result();
+        result.setData(petService.pageByPetName(pageNum, pageSize, petName));
+        result.success("查询成功");
+        result.put("total", petService.getCountByPetName(petName));
+        return result;
+    }
+
+
     @GetMapping("/getCount")
     @ApiOperation(value = "查询宠物类别数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body", value = "宠物类别数量", required = true),
     })
     public Result getCount(Integer id) {
         Result result = new Result();
@@ -98,10 +117,12 @@ public class PetController {
         result.success("查询成功");
         return result;
     }
+
+
     @GetMapping("/getCountBySpecie")
     @ApiOperation(value = "查询宠物种类数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物种类数量", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body", value = "宠物类别数量", required = true),
     })
     public Result getCountBySpecie(Integer specie) {
         Result result = new Result();
@@ -111,13 +132,13 @@ public class PetController {
     }
 
     //分页查询-page
-    @ApiOperation(value="分页查询宠物记录")
+    @ApiOperation(value = "分页查询宠物记录")
+    @RequestMapping(method = RequestMethod.POST, value = "/page")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="pageNum",required=true,paramType="query",value="当前页码"),
-            @ApiImplicitParam(name="pageSize",required=true,paramType="query",value="每页显示条数"),
-            @ApiImplicitParam(name="name",paramType="query",value="宠物类别关键字，可以为空")
+            @ApiImplicitParam(name = "pageNum", required = true, paramType = "query", value = "当前页码"),
+            @ApiImplicitParam(name = "pageSize", required = true, paramType = "query", value = "每页显示条数"),
+            @ApiImplicitParam(name = "name", paramType = "query", value = "宠物类别关键字，可以为空")
     })
-    @RequestMapping(method = RequestMethod.POST,value = "/page")
     public Result page(@RequestBody Map map){
         String breedName = map.get("breedName").toString();
         Integer pageNum = (Integer) map.get("pageNum");

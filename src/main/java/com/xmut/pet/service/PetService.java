@@ -1,14 +1,13 @@
 package com.xmut.pet.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xmut.pet.VO.CartVO;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Pet;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Zi
@@ -16,7 +15,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PetService extends IService<Pet> {
     Page<petVO> page(Integer pageNum, Integer pageSize, String BreedName, Integer specie);
+
+    Page<petVO> pageByPetName(Integer pageNum, Integer pageSize, String petName);
+
     int getCount(Integer id);
+
     int getCountBySpecie(Integer specie);
+
+    int getCountByPetName(String petName);
 
 }

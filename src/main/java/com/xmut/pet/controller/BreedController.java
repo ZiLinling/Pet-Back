@@ -2,14 +2,12 @@ package com.xmut.pet.controller;
 
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.BreedService;
-import com.xmut.pet.service.PetService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,12 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/breed")
 public class BreedController {
+
     @Autowired
     private BreedService breedService;
+
     @GetMapping("/getBreed")
     @ApiOperation(value = "查询宠物类别")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别", required = true),
+            @ApiImplicitParam(name = "specie", dataType = "Integer", paramType = "query", value = "宠物类别", required = true),
     })
     public Result getBreed(Integer specie) {
         Result result = new Result();

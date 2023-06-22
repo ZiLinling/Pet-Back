@@ -11,7 +11,7 @@ public class JwtUtil {
     private static Algorithm algorithm = Algorithm.HMAC256("asdwqewqhidhwhdqwh");
     static public String generateToken(User user) {
         Date start = new Date();
-        long currentTime = System.currentTimeMillis() + 60*60 * 1000;//一小时有效时间
+        long currentTime = System.currentTimeMillis() + 60 * 60 * 1000 * 24;//24小时
         Date end = new Date(currentTime);
         String token = "";
         token = JWT.create()
@@ -33,8 +33,9 @@ public class JwtUtil {
     }
 
     static public void checkToken(String token) {
-        if (token == null)
+        if (token == null) {
             token = "";
+        }
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         jwtVerifier.verify(token);
     }

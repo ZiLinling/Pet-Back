@@ -1,7 +1,7 @@
 package com.xmut.pet.service;
 
-import com.xmut.pet.entity.Address;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xmut.pet.entity.Address;
 
 import java.util.List;
 
@@ -17,5 +17,6 @@ public interface AddressService extends IService<Address> {
 
     List<Address> getListByUserId(int userId);
 
+    Address getAddressByDefault(int userId);
 
 }

@@ -2,8 +2,12 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/pet?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
+    #本地
     username: root
-    password: root
+    password: htf020428
+    #服务器
+  #    username: pet
+  #    password: root
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -21,9 +25,17 @@ server:
 
 logging:
   level:
-    com.xmut.pet.mapper.* : debug
+    com.xmut.pet.mapper.*: debug
 
+
+#本地运行
 
 files:
   upload:
     path: src/main/resources/static/images/
+
+#服务器
+
+#files:
+#  upload:
+#    path: resource/images/

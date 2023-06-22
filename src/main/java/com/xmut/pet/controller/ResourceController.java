@@ -5,6 +5,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.ResourceService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,10 @@ public class ResourceController {
     private String fileUploadPath;
 
     @PostMapping("/upload/{directory}")
+    @ApiOperation(value = "上传文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path", value = "文件夹", required = true),
+    })
     public Result upload(@RequestBody MultipartFile file, @PathVariable String directory) throws IOException {
         Result<String> res = new Result<>();
         String originalFilename = file.getOriginalFilename();
@@ -42,7 +49,7 @@ public class ResourceController {
         //存储到设备
         File uploadParentFile = new File(fileUploadPath);
         fileUploadPath = uploadParentFile.getAbsolutePath();
-        String uploadPath = fileUploadPath + "\\" + directory + "\\";
+        String uploadPath = fileUploadPath + "/" + directory + "/";
 //        System.out.println(fileUploadPath);
         if (!uploadParentFile.exists()) {
             uploadParentFile.mkdir();
@@ -58,8 +65,13 @@ public class ResourceController {
     }
 
     @GetMapping("/{directory}/{fileUUID}")
+    @ApiOperation(value = "下载文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileUUID", dataType = "String", paramType = "path", value = "文件uuid", required = true),
+            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path", value = "文件夹", required = true),
+    })
     public void download(@PathVariable String fileUUID, @PathVariable String directory, HttpServletResponse response) throws IOException {
-        File uploadFile = new File(fileUploadPath + "\\" + directory + "\\" + fileUUID);
+        File uploadFile = new File(fileUploadPath + "/" + directory + "/" + fileUUID);
         ServletOutputStream outputStream = response.getOutputStream();
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUUID, "UTF-8"));
         response.setContentType("application/octet-stream");
@@ -70,6 +82,11 @@ public class ResourceController {
 
     //删除文件
     @DeleteMapping("/{directory}/{fileUUIDs}")
+    @ApiOperation(value = "删除文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileUUIDs", dataType = "String", paramType = "path", value = "文件uuid", required = true),
+            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path", value = "文件夹", required = true),
+    })
     public Result delete(@PathVariable String fileUUIDs, @PathVariable String directory) {
         System.out.println(fileUUIDs);
         Result<String> res = new Result<>();

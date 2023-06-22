@@ -124,7 +124,7 @@ public class UserController {
         User user = userService.getById(id);
         user.setPassword(null);
         result.success("获取成功");
-        result.setData(userService.getById(id));
+        result.setData(user);
         return result;
     }
 
