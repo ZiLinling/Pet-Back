@@ -4,7 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/pet?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
     #本地
     username: root
-    password: htf020428
+    password: root
     #服务器
   #    username: pet
   #    password: root
@@ -12,6 +12,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
       static-path-pattern: /**
+  servlet:
+    multipart:
+      max-file-size: 20MB
+
 
 mybatis-plus:
   configuration:

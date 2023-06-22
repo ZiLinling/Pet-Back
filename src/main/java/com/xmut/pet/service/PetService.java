@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Pet;
+import com.xmut.pet.entity.Result;
 
 /**
  * <p>
@@ -24,4 +25,5 @@ public interface PetService extends IService<Pet> {
 
     int getCountByPetName(String petName);
 
+    Result<Page<Pet>> page(Integer pageNum, Integer pageSize, Integer storeId, Integer breedId, String name);
 }

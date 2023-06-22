@@ -1,7 +1,9 @@
 package com.xmut.pet.service;
 
-import com.xmut.pet.entity.Breed;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xmut.pet.entity.Breed;
+import com.xmut.pet.entity.Result;
 
 import java.util.List;
 
@@ -16,4 +18,8 @@ import java.util.List;
 public interface BreedService extends IService<Breed> {
 
     List<Breed> getBreed(Integer specie);
+
+    List<Breed> getList();
+
+    Result<Page<Breed>> page(Integer pageNum, Integer pageSize, Integer specie, Integer status);
 }

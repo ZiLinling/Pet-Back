@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Pet;
+import com.xmut.pet.entity.Result;
 import com.xmut.pet.mapper.PetMapper;
 import com.xmut.pet.service.PetService;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,22 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
     @Override
     public int getCountByPetName(String petName) {
         return baseMapper.listByName(petName).size();
+    }
+
+    @Override
+    public Result<Page<Pet>> page(Integer pageNum, Integer pageSize, Integer storeId, Integer breedId, String name) {
+        Result<Page<Pet>> result = new Result<>();
+        Page<Pet> page = new Page<>(pageNum, pageSize);
+        QueryWrapper<Pet> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("store_id", storeId);
+        if (name != null && !name.equals("")) {
+            queryWrapper.like("name", name);
+        }
+        if (breedId != null) {
+            queryWrapper.eq("breed_id", breedId);
+        }
+        result.setData(this.page(page, queryWrapper));
+        result.put("total", this.count(queryWrapper));
+        return result;
     }
 }

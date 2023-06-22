@@ -29,18 +29,21 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private StoreService storeService;
 
     @Override
-    public Result<Page<Goods>> page(Integer pageNum, Integer pageSize, String key, Integer category, Integer status) {
+    public Result<Page<Goods>> page(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status) {
         Result<Page<Goods>> result = new Result<>();
         Page<Goods> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
-        if (key != null && !"".equals(key)) {
-            queryWrapper.like("name", key);
+        if (name != null && !"".equals(name)) {
+            queryWrapper.like("name", name);
         }
         if (category != null) {
             queryWrapper.eq("category", category);
         }
         if (status != null) {
             queryWrapper.eq("status", status);
+        }
+        if (storeId != null) {
+            queryWrapper.eq("store_id", storeId);
         }
         page = this.page(page, queryWrapper);
         List<Goods> goodsList = page.getRecords();
