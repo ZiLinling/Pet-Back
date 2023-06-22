@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * <p>
  * 前端控制器
@@ -70,14 +73,15 @@ public class StoreController {
     }
 
     //删除商店
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     @ApiOperation(value = "删除商店")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "商店id", required = true),
+            @ApiImplicitParam(name = "ids", dataType = "Integer", paramType = "query", value = "商店id列表", required = true),
     })
-    public Result delete(Integer id) {
+    public Result delete(String ids) {
         Result result = new Result();
-        if (storeService.removeById(id)) {
+        List<String> idList = Arrays.asList(ids.split(","));
+        if (storeService.removeByIds(idList)) {
             result.success("商店:删除成功");
         } else {
             result.fail("商店:删除失败");
@@ -96,7 +100,7 @@ public class StoreController {
     })
     public Result<Page<Store>> getList(Integer pageNum, Integer pageSize, String key, Integer status) {
         Result<Page<Store>> result = new Result<>();
-        result.success("商品:列表请求成功");
+        result.success("商店:列表请求成功");
         result.setData(storeService.page(pageNum, pageSize, key, status));
         result.put("total", storeService.count(key, status));
         return result;

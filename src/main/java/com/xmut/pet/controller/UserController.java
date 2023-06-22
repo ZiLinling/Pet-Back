@@ -103,7 +103,7 @@ public class UserController {
     @PostMapping("/delete")
     @ApiOperation(value = "删除用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "用户id列表", required = true),
+            @ApiImplicitParam(name = "ids", dataType = "Integer", paramType = "query", value = "用户id列表", required = true),
     })
     public Result delete(String ids) {
         Result result = new Result<>();

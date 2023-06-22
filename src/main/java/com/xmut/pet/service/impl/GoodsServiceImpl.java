@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
 
+
     @Override
     public Result<Page<Goods>> page(Integer pageNum, Integer pageSize, String key, Integer category, Integer status) {
         Result<Page<Goods>> result = new Result<>();
