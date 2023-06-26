@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Zi
@@ -35,38 +35,38 @@ public class FavorServiceImpl extends ServiceImpl<FavorMapper, Favor> implements
     @Override
     public Result<List> page(Integer pageNum, Integer pageSize, Integer userId, Integer type) {
         Result<List> result = new Result<>();
-        QueryWrapper<Favor> queryWrapper= new QueryWrapper<>();
+        QueryWrapper<Favor> queryWrapper = new QueryWrapper<>();
         Page<Favor> page = new Page<>(pageNum, pageSize);
-        queryWrapper.eq("user_id",userId).eq("type",type);
-        result.setData(getItem(this.page(page,queryWrapper),type));
+        queryWrapper.eq("user_id", userId).eq("type", type);
+        result.setData(getItem(this.page(page, queryWrapper), type));
         result.put("total", this.count(queryWrapper));
         return result;
     }
 
     @Override
     public List<Favor> getItem(Page<Favor> page, Integer type) {
-        List<Favor> favorList=page.getRecords();
-        for(Favor favor:favorList){
-            if(type==1) {
-                Pet pet=petService.getById(favor.getItemId());
-                pet.put("breed",breedService.getById(pet.getBreedId()).getName());
-                favor.put("item",pet);
-            } else if(type==2){
+        List<Favor> favorList = page.getRecords();
+        for (Favor favor : favorList) {
+            if (type == 1) {
+                Pet pet = petService.getById(favor.getItemId());
+                pet.put("breed", breedService.getById(pet.getBreedId()).getName());
+                favor.put("item", pet);
+            } else if (type == 2) {
                 Goods goods = GoodsService.getById(favor.getItemId());
-                goods.put("store",storeService.getById(goods.getStoreId()).getName());
-                favor.put("item",goods);
-            } else if(type==3){
-                Store store=storeService.getById(favor.getItemId());
-                favor.put("item",store);
+                goods.put("store", storeService.getById(goods.getStoreId()).getName());
+                favor.put("item", goods);
+            } else if (type == 3) {
+                Store store = storeService.getById(favor.getItemId());
+                favor.put("item", store);
             }
         }
         return favorList;
     }
 
     @Override
-    public Favor check(Integer userId, Integer itemId, Integer type){
-        QueryWrapper<Favor> queryWrapper= new QueryWrapper<>();
-        queryWrapper.eq("user_id",userId).eq("item_id",itemId).eq("type",type);
+    public Favor check(Integer userId, Integer itemId, Integer type) {
+        QueryWrapper<Favor> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId).eq("item_id", itemId).eq("type", type);
         return this.getOne(queryWrapper);
     }
 }

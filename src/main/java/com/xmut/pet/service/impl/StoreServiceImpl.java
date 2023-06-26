@@ -2,6 +2,7 @@ package com.xmut.pet.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Goods;
 import com.xmut.pet.entity.Pet;
@@ -10,13 +11,12 @@ import com.xmut.pet.mapper.StoreMapper;
 import com.xmut.pet.service.GoodsService;
 import com.xmut.pet.service.PetService;
 import com.xmut.pet.service.StoreService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Zi
@@ -55,14 +55,14 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
     }
 
     @Override
-    public Page<petVO> pageByStoreId(Integer pageNum, Integer pageSize, Integer storeId,Integer type) {
-        if(type==1)//type为1返回周边商品
+    public Page<petVO> pageByStoreId(Integer pageNum, Integer pageSize, Integer storeId, Integer type) {
+        if (type == 1)//type为1返回周边商品
         {
-            Page<Goods> page = new Page<>(pageNum,pageSize);
-            return baseMapper.pageGoodsByStoreId(page,storeId);
+            Page<Goods> page = new Page<>(pageNum, pageSize);
+            return baseMapper.pageGoodsByStoreId(page, storeId);
         }
-        Page<petVO> page=new Page<>(pageNum,pageSize);
-        return baseMapper.pagePetByStoreId(page,storeId);//返回按品种分类的宠物信息
+        Page<petVO> page = new Page<>(pageNum, pageSize);
+        return baseMapper.pagePetByStoreId(page, storeId);//返回按品种分类的宠物信息
 
     }
 
@@ -70,17 +70,18 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
     public Long countByPet(Integer storeId, Integer status) {
 
         QueryWrapper<Pet> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("store_id",storeId);
+        queryWrapper.eq("store_id", storeId);
         if (status != null) {
             queryWrapper.eq("status", status);
         }
         return petService.count(queryWrapper);
     }
+
     @Override
     public Long countByGoods(Integer storeId, Integer status) {
 
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("store_id",storeId);
+        queryWrapper.eq("store_id", storeId);
         if (status != null) {
             queryWrapper.eq("status", status);
         }

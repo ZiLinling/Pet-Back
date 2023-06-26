@@ -59,11 +59,9 @@ public class AddressController {
     public Result add(@RequestBody Address address) {
         Result result = new Result();
         Integer id = JwtUtil.getUserId(request.getHeader("token"));
-        if (address.getIsDefault())
-        {
-            List<Address> addressList=addressService.getListByUserId(id);
-            for (Address item : addressList)
-            {
+        if (address.getIsDefault()) {
+            List<Address> addressList = addressService.getListByUserId(id);
+            for (Address item : addressList) {
                 item.setIsDefault(false);
                 addressService.updateById(item);
             }
@@ -78,19 +76,16 @@ public class AddressController {
     }
 
     @PostMapping("/update")
-    @ApiOperation(value="更新用户地址")
+    @ApiOperation(value = "更新用户地址")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "address", dataType = "Address", paramType = "body",value = "地址信息", required = true),
+            @ApiImplicitParam(name = "address", dataType = "Address", paramType = "body", value = "地址信息", required = true),
     })
-    public Result update(@RequestBody Address address)
-    {
+    public Result update(@RequestBody Address address) {
         Result result = new Result();
-        if(address.getIsDefault())
-        {
+        if (address.getIsDefault()) {
             Integer id = JwtUtil.getUserId(request.getHeader("token"));
-            List<Address> addressList=addressService.getListByUserId(id);
-            for (Address item : addressList)
-            {
+            List<Address> addressList = addressService.getListByUserId(id);
+            for (Address item : addressList) {
                 item.setIsDefault(false);
                 addressService.updateById(item);
             }
@@ -103,8 +98,8 @@ public class AddressController {
         return result;
     }
 
-    @PostMapping ("/delete")
-    @ApiOperation(value="删除用户地址")
+    @PostMapping("/delete")
+    @ApiOperation(value = "删除用户地址")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "地址id", required = true),
     })

@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,20 +74,22 @@ public class StoreController {
     }
 
     //删除商店
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     @ApiOperation(value = "删除商店")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "商店id", required = true),
+            @ApiImplicitParam(name = "ids", dataType = "Integer", paramType = "query", value = "商店id列表", required = true),
     })
-    public Result delete(Integer id) {
+    public Result delete(String ids) {
         Result result = new Result();
-        if (storeService.removeById(id)) {
+        List<String> idList = Arrays.asList(ids.split(","));
+        if (storeService.removeByIds(idList)) {
             result.success("商店:删除成功");
         } else {
             result.fail("商店:删除失败");
         }
         return result;
     }
+
 
     //分页获取商店列表
     @GetMapping("/getList")
@@ -105,33 +109,38 @@ public class StoreController {
     }
 
 
-    @ApiOperation(value="分页查询商店宠物记录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="pageNum",required=true,paramType="query",value="当前页码"),
-            @ApiImplicitParam(name="pageSize",required=true,paramType="query",value="每页显示条数"),
-            @ApiImplicitParam(name="storeId",paramType="query",value="商店Id"),
-            @ApiImplicitParam(name="type",paramType="query",value="判断是宠物还是周边商品，0是宠物，1是周边商品")
-    })
-    @RequestMapping(method = RequestMethod.POST,value = "/pageByStoreId")
-    public Result pageByStoreId(@RequestBody Map map){
-        Integer a = 1;
-        Integer pageNum = (Integer) map.get("pageNum");
-        Integer pageSize = (Integer) map.get("pageSize");
-        Integer storeId = Integer.parseInt((String) map.get("storeId"));
-        Integer type =(Integer) map.get("type");
-        Result result = new Result();
-        result.success("分页查询成功");
-        result.setData(storeService.pageByStoreId(pageNum,pageSize,storeId,type));
-        if(type==0)
-        {
-            result.put("total",storeService.countByPet(storeId,a));
-        }
-        else
-        {
-            result.put("total",storeService.countByGoods(storeId,a));
-        }
+    @GetMapping("/list")
+    @ApiOperation(value = "获取商店列表")
+    public Result<List<Store>> list() {
+        Result<List<Store>> result = new Result<>();
+        result.success("商店:列表请求成功");
+        result.setData(storeService.list());
         return result;
     }
 
 
+    @ApiOperation(value = "分页查询商店宠物记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", required = true, paramType = "query", value = "当前页码"),
+            @ApiImplicitParam(name = "pageSize", required = true, paramType = "query", value = "每页显示条数"),
+            @ApiImplicitParam(name = "storeId", paramType = "query", value = "商店Id"),
+            @ApiImplicitParam(name = "type", paramType = "query", value = "判断是宠物还是周边商品，0是宠物，1是周边商品")
+    })
+    @RequestMapping(method = RequestMethod.POST, value = "/pageByStoreId")
+    public Result pageByStoreId(@RequestBody Map map) {
+        Integer a = 1;
+        Integer pageNum = (Integer) map.get("pageNum");
+        Integer pageSize = (Integer) map.get("pageSize");
+        Integer storeId = (Integer) (map.get("storeId"));
+        Integer type = (Integer) map.get("type");
+        Result result = new Result();
+        result.success("分页查询成功");
+        result.setData(storeService.pageByStoreId(pageNum, pageSize, storeId, type));
+        if (type == 0) {
+            result.put("total", storeService.countByPet(storeId, a));
+        } else {
+            result.put("total", storeService.countByGoods(storeId, a));
+        }
+        return result;
+    }
 }

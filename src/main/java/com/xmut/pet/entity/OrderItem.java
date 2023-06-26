@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Zi
@@ -30,17 +30,14 @@ public class OrderItem extends BaseEntity implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
     /**
      * 物品id(宠物id/周边id)
      */
     private Integer itemId;
-
     /**
      * 订单数量
      */
     private Integer num;
-
     /**
      * 0为宠物,1为周边
      */
@@ -48,7 +45,7 @@ public class OrderItem extends BaseEntity implements Serializable {
     /**
      * 0为宠物,1为周边
      */
-    private Integer OrderId;
+    private Integer orderId;
     /**
      * 商品单价
      */

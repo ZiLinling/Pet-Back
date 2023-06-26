@@ -40,7 +40,7 @@ public class ResourceController {
     @PostMapping("/upload/{directory}")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path",value = "文件夹", required = true),
+            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path", value = "文件夹", required = true),
     })
     public Result upload(@RequestBody MultipartFile file, @PathVariable String directory) throws IOException {
         Result<String> res = new Result<>();
@@ -49,7 +49,7 @@ public class ResourceController {
         //存储到设备
         File uploadParentFile = new File(fileUploadPath);
         fileUploadPath = uploadParentFile.getAbsolutePath();
-        String uploadPath = fileUploadPath + "\\" + directory + "\\";
+        String uploadPath = fileUploadPath + "/" + directory + "/";
 //        System.out.println(fileUploadPath);
         if (!uploadParentFile.exists()) {
             uploadParentFile.mkdir();
@@ -67,11 +67,11 @@ public class ResourceController {
     @GetMapping("/{directory}/{fileUUID}")
     @ApiOperation(value = "下载文件")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "fileUUID", dataType = "String", paramType = "path",value = "文件uuid", required = true),
-            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path",value = "文件夹", required = true),
+            @ApiImplicitParam(name = "fileUUID", dataType = "String", paramType = "path", value = "文件uuid", required = true),
+            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path", value = "文件夹", required = true),
     })
     public void download(@PathVariable String fileUUID, @PathVariable String directory, HttpServletResponse response) throws IOException {
-        File uploadFile = new File(fileUploadPath + "\\" + directory + "\\" + fileUUID);
+        File uploadFile = new File(fileUploadPath + "/" + directory + "/" + fileUUID);
         ServletOutputStream outputStream = response.getOutputStream();
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUUID, "UTF-8"));
         response.setContentType("application/octet-stream");
@@ -84,8 +84,8 @@ public class ResourceController {
     @DeleteMapping("/{directory}/{fileUUIDs}")
     @ApiOperation(value = "删除文件")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "fileUUIDs", dataType = "String", paramType = "path",value = "文件uuid", required = true),
-            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path",value = "文件夹", required = true),
+            @ApiImplicitParam(name = "fileUUIDs", dataType = "String", paramType = "path", value = "文件uuid", required = true),
+            @ApiImplicitParam(name = "directory", dataType = "String", paramType = "path", value = "文件夹", required = true),
     })
     public Result delete(@PathVariable String fileUUIDs, @PathVariable String directory) {
         System.out.println(fileUUIDs);

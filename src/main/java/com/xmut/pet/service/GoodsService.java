@@ -15,7 +15,7 @@ import com.xmut.pet.entity.Result;
  */
 public interface GoodsService extends IService<Goods> {
 
-    Result<Page<Goods>> page(Integer pageNum, Integer pageSize, String key, Integer category, Integer status);
+    Result<Page<Goods>> page(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status);
 
     Result<Page<Goods>> pageByGoodsName(Integer pageNum, Integer pageSize, String name);
 }

@@ -64,9 +64,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         Integer num = 0;
         for (CartVO cartItem : cartVO) {
             List<GoodsVO> goodsVOItem = new ArrayList<>();
-            for (GoodsVO item : goodsVOList){
+            for (GoodsVO item : goodsVOList) {
 
-                if(item.getStoreId()==cartItem.getStoreId()){
+                if (item.getStoreId() == cartItem.getStoreId()) {
                     item.setId(num);
                     //     cartItem.setGoodsVOList(item);
                     goodsVOItem.add(item);

@@ -2,16 +2,16 @@ package com.xmut.pet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-
 import com.xmut.pet.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Zi
@@ -58,4 +58,8 @@ public class Store extends BaseEntity implements Serializable {
      * 商店图片
      */
     private String img;
+
+    private Double longitude;
+
+    private Double latitude;
 }

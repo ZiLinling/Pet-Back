@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * <p>
@@ -46,14 +49,15 @@ public class GoodsController {
     @PostMapping("/delete")
     @ApiOperation(value = "删除商品")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "商品id", required = true),
+            @ApiImplicitParam(name = "ids", dataType = "Integer", paramType = "query", value = "商品id", required = true),
     })
-    public Result delete(Integer id) {
+    public Result delete(String ids) {
         Result result = new Result<>();
-        if (goodsService.removeById(id)) {
-            result.success("商品:删除成功");
+        List<String> idList = Arrays.asList(ids.split(","));
+        if (goodsService.removeByIds(idList)) {
+            result.success("删除成功");
         } else {
-            result.fail("商品:删除失败");
+            result.fail("删除失败");
         }
         return result;
     }
@@ -97,8 +101,8 @@ public class GoodsController {
             @ApiImplicitParam(name = "category", dataType = "Integer", paramType = "query", value = "分类"),
             @ApiImplicitParam(name = "status", dataType = "Integer", paramType = "query", value = "状态"),
     })
-    public Result<Page<Goods>> getList(Integer pageNum, Integer pageSize, String key, Integer category, Integer status) {
-        Result<Page<Goods>> result = goodsService.page(pageNum, pageSize, key, category, status);
+    public Result<Page<Goods>> getList(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status) {
+        Result<Page<Goods>> result = goodsService.page(pageNum, pageSize, storeId, name, category, status);
         result.success("商品:列表请求成功");
         return result;
     }

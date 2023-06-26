@@ -32,7 +32,7 @@ public class OrderController {
             @ApiImplicitParam(name = "order", dataType = "Order", paramType = "body", value = "订单信息", required = true),
     })
     public Result generateOrder(@RequestBody Order order) {
-            Result result = new Result<>();
+        Result result = new Result<>();
         Integer orderId = orderService.generate(order);
         if (orderId != null) {
             result.setData(orderId);

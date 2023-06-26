@@ -1,5 +1,6 @@
 package com.xmut.pet.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.entity.Pet;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.PetService;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,12 +36,12 @@ public class PetController {
     @GetMapping("/getById")
     @ApiOperation(value = "获取宠物信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "宠物id", required = true),
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "宠物id", required = true),
     })
     public Result<Pet> getById(Integer id) {
         Result<Pet> result = new Result<>();
-        Pet pet=petService.getById(id);
-        pet.put("store",storeService.getById(pet.getStoreId()));
+        Pet pet = petService.getById(id);
+        pet.put("store", storeService.getById(pet.getStoreId()));
         result.success("宠物:获取成功");
         result.setData(pet);
         return result;
@@ -80,14 +83,15 @@ public class PetController {
     @PostMapping("/delete")
     @ApiOperation(value = "删除宠物")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "宠物id", required = true),
+            @ApiImplicitParam(name = "ids", dataType = "String", paramType = "query", value = "宠物id", required = true),
     })
-    public Result delete(Integer id) {
+    public Result delete(String ids) {
         Result result = new Result();
-        if (petService.removeById(id)) {
-            result.success("宠物:删除成功");
+        List<String> idList = Arrays.asList(ids.split(","));
+        if (petService.removeByIds(idList)) {
+            result.success("删除成功");
         } else {
-            result.fail("宠物:删除失败");
+            result.fail("删除失败");
         }
         return result;
     }
@@ -95,13 +99,13 @@ public class PetController {
     @GetMapping("/getPetByName")
     @ApiOperation(value = "查询宠物类别数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body", value = "宠物类别数量", required = true),
     })
     public Result getPetByName(Integer pageNum, Integer pageSize, String petName) {
         Result result = new Result();
-        result.setData(petService.pageByPetName(pageNum,pageSize,petName));
+        result.setData(petService.pageByPetName(pageNum, pageSize, petName));
         result.success("查询成功");
-        result.put("total",petService.getCountByPetName(petName));
+        result.put("total", petService.getCountByPetName(petName));
         return result;
     }
 
@@ -109,7 +113,7 @@ public class PetController {
     @GetMapping("/getCount")
     @ApiOperation(value = "查询宠物类别数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body", value = "宠物类别数量", required = true),
     })
     public Result getCount(Integer id) {
         Result result = new Result();
@@ -117,10 +121,12 @@ public class PetController {
         result.success("查询成功");
         return result;
     }
+
+
     @GetMapping("/getCountBySpecie")
     @ApiOperation(value = "查询宠物种类数量")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body",value = "宠物类别数量", required = true),
+            @ApiImplicitParam(name = "pet", dataType = "Pet", paramType = "Body", value = "宠物类别数量", required = true),
     })
     public Result getCountBySpecie(Integer specie) {
         Result result = new Result();
@@ -130,12 +136,12 @@ public class PetController {
     }
 
     //分页查询-page
-    @ApiOperation(value="分页查询宠物记录")
-    @RequestMapping(method = RequestMethod.POST,value = "/page")
+    @ApiOperation(value = "分页查询宠物记录")
+    @RequestMapping(method = RequestMethod.POST, value = "/page")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="pageNum",required=true,paramType="query",value="当前页码"),
-            @ApiImplicitParam(name="pageSize",required=true,paramType="query",value="每页显示条数"),
-            @ApiImplicitParam(name="name",paramType="query",value="宠物类别关键字，可以为空")
+            @ApiImplicitParam(name = "pageNum", required = true, paramType = "query", value = "当前页码"),
+            @ApiImplicitParam(name = "pageSize", required = true, paramType = "query", value = "每页显示条数"),
+            @ApiImplicitParam(name = "name", paramType = "query", value = "宠物类别关键字，可以为空")
     })
     public Result page(@RequestBody Map map){
         String breedName = map.get("breedName").toString();
@@ -144,9 +150,23 @@ public class PetController {
         Integer specie = Integer.parseInt((String) map.get("specie"));
         Result result = new Result();
         result.success("分页查询成功");
-        result.setData(petService.page(pageNum,pageSize,breedName,specie));
+        result.setData(petService.page(pageNum, pageSize, breedName, specie));
         return result;
     }
 
+    @GetMapping("/getList")
+    @ApiOperation(value = "分页获取宠物列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "当前页码", required = true),
+            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "每页显示条数", required = true),
+            @ApiImplicitParam(name = "storeId", dataType = "Integer", paramType = "query", value = "商店id", required = true),
+            @ApiImplicitParam(name = "breedId", dataType = "Integer", paramType = "query", value = "品种id", required = true),
+            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "宠物名称", required = true),
+    })
+    public Result<Page<Pet>> getList(Integer pageNum, Integer pageSize, Integer storeId, Integer breedId, String name) {
+        Result<Page<Pet>> result = petService.page(pageNum, pageSize, storeId, breedId, name);
+        result.success("商品:列表请求成功");
+        return result;
+    }
 
 }

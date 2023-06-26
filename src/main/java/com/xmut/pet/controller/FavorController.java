@@ -1,6 +1,5 @@
 package com.xmut.pet.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.entity.Favor;
 import com.xmut.pet.entity.Result;
@@ -8,7 +7,6 @@ import com.xmut.pet.service.FavorService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +19,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Zi
@@ -36,6 +34,7 @@ public class FavorController {
 
     @Autowired
     private HttpServletRequest request;
+
     //根据用户id获取收藏列表
     @GetMapping("/list")
     @ApiOperation(value = "分页获取用户收藏列表")
@@ -55,14 +54,14 @@ public class FavorController {
     @PostMapping("/add")
     @ApiOperation(value = "新增收藏")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "item", dataType = "Integer", paramType = "query",value = "收藏id", required = true),
-            @ApiImplicitParam(name = "type", dataType = "Integer", paramType = "query",value = "收藏类型", required = true),
+            @ApiImplicitParam(name = "item", dataType = "Integer", paramType = "query", value = "收藏id", required = true),
+            @ApiImplicitParam(name = "type", dataType = "Integer", paramType = "query", value = "收藏类型", required = true),
             //type:1-商品 2-宠物 3-商店
     })
     public Result add(Integer itemId, Integer type) {
         Result result = new Result<>();
         Integer userId = JwtUtil.getUserId(request.getHeader("token"));
-        Favor favor=new Favor();
+        Favor favor = new Favor();
         favor.setUserId(userId);
         favor.setItemId(itemId);
         favor.setType(type);
@@ -77,7 +76,7 @@ public class FavorController {
     @PostMapping("/delete")
     @ApiOperation(value = "删除收藏")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "收藏id", required = true),
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "收藏id", required = true),
     })
     public Result delete(Integer id) {
         Result result = new Result<>();
@@ -92,13 +91,13 @@ public class FavorController {
     @GetMapping("/check")
     @ApiOperation(value = "删除收藏")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query",value = "收藏id", required = true),
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "query", value = "收藏id", required = true),
     })
     public Result check(Integer itemId, Integer type) {
         Result result = new Result<>();
         Integer userId = JwtUtil.getUserId(request.getHeader("token"));
-        Favor favor=favorService.check(userId, itemId, type);
-        if (favor!=null) {
+        Favor favor = favorService.check(userId, itemId, type);
+        if (favor != null) {
             result.setData(favor);
             result.success("收藏:已收藏");
         } else {
