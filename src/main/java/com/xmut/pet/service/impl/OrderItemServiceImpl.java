@@ -36,6 +36,9 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public boolean generate(OrderItem orderItem) {
+        if (orderItem.getType() == null) {
+            orderItem.setType(1);
+        }
         this.save(orderItem);
         return true;
     }
