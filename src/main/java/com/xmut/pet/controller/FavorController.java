@@ -66,6 +66,7 @@ public class FavorController {
         favor.setItemId(itemId);
         favor.setType(type);
         if (favorService.save(favor)) {
+            result.setData(favor);
             result.success("收藏:添加成功");
         } else {
             result.fail("收藏:添加失败");

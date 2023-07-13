@@ -119,12 +119,16 @@ public class UserController {
     @GetMapping("/getUser")
     @ApiOperation(value = "获取用户信息")
     public Result<User> getUser() {
-        Integer id = JwtUtil.getUserId(request.getHeader("token"));
         Result<User> result = new Result<>();
-        User user = userService.getById(id);
-        user.setPassword(null);
-        result.success("获取成功");
-        result.setData(user);
+        try {
+            Integer id = JwtUtil.getUserId(request.getHeader("token"));
+            User user = userService.getById(id);
+            user.setPassword(null);
+            result.success("获取成功");
+            result.setData(user);
+        } catch (Exception e) {
+            result.fail("获取失败");
+        }
         return result;
     }
 

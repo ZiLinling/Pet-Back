@@ -75,7 +75,12 @@ public class ResourceController {
         ServletOutputStream outputStream = response.getOutputStream();
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUUID, "UTF-8"));
         response.setContentType("application/octet-stream");
-        outputStream.write(FileUtil.readBytes(uploadFile));
+        try {
+            outputStream.write(FileUtil.readBytes(uploadFile));
+        } catch (Exception e) {
+            uploadFile = new File(fileUploadPath + "/tool/placeholder.png");
+            outputStream.write(FileUtil.readBytes(uploadFile));
+        }
         outputStream.flush();
         outputStream.close();
     }
