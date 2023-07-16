@@ -2,6 +2,7 @@ package com.xmut.pet.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.entity.OrderItem;
+import com.xmut.pet.entity.Result;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface OrderItemService extends IService<OrderItem> {
     List<OrderItem> getListByStoreId(Integer storeId);
 
     boolean generate(OrderItem orderItem);
+
+    Result listOrderItem();
 }

@@ -48,11 +48,6 @@ public class Order extends BaseEntity implements Serializable {
     private BigDecimal price;
 
     /**
-     * 订单状态
-     */
-    private Integer status;
-
-    /**
      * 收货人名字
      */
     private String name;

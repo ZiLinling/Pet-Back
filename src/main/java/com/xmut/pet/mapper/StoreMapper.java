@@ -2,6 +2,7 @@ package com.xmut.pet.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xmut.pet.VO.StoreVO;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Goods;
 import com.xmut.pet.entity.Store;
@@ -22,5 +23,11 @@ public interface StoreMapper extends BaseMapper<Store> {
 
     @Select("SELECT DISTINCT goods.* FROM goods,store WHERE goods.store_id = '${storeId}'")
     Page<petVO> pageGoodsByStoreId(@Param("page") Page<Goods> page, @Param("storeId") Integer storeId);
+
+    @Select("SELECT goods.store_id, store.name FROM goods JOIN store ON store.id = goods.store_id WHERE goods.id = '${goodsId}'")
+    StoreVO getByGoodsId(@Param("goodsId") Integer goodsId);
+
+    @Select("SELECT pet.store_id, store.name FROM pet JOIN store ON store.id = pet.store_id WHERE pet.id = '${petId}'")
+    StoreVO getByPetId(@Param("petId") Integer petId);
 
 }

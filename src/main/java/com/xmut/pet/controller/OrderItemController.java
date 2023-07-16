@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -41,6 +38,18 @@ public class OrderItemController {
         } else {
             result.fail("订单信息生成失败");
         }
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
+    @ApiOperation(value = "罗列订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "order", dataType = "Order", paramType = "body", value = "订单信息", required = true),
+    })
+    public Result listOrder() {
+        Result result = new Result<>();
+        result.setData(orderItemService.listOrderItem());
+
         return result;
     }
 }

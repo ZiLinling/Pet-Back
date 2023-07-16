@@ -97,7 +97,8 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.3.1</version>
         </dependency>
-        <!--mybatis-plus-->
+        <!--mybatis
+        -plus-->
 
         <!--mybatis-plus 代码生成器依赖-->
         <dependency>

@@ -50,4 +50,8 @@ public class OrderItem extends BaseEntity implements Serializable {
      * 商品单价
      */
     private Integer price;
+    /**
+     * 订单状态
+     */
+    private Integer status;
 }

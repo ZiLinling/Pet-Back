@@ -10,10 +10,10 @@ import java.util.List;
 
 public class CodeGenerator {
     public static void main(String[] args) {
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/pet?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC", "root", "root")
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/pet?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC", "root", "123456")
                 // 全局配置
                 .globalConfig(builder -> {
-                    builder.author("Zi") // 设置作者
+                    builder.author("Ji") // 设置作者
                             .commentDate("yyyy-MM-dd hh:mm:ss")   //注释日期
                             .outputDir(System.getProperty("user.dir") + "/src/main/java") // 指定输出目录
                             .disableOpenDir() //禁止打开输出目录，默认打开
@@ -26,7 +26,7 @@ public class CodeGenerator {
                 })
                 // 策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("cart") // 设置需要生成的表名
+                    builder.addInclude("bank_card") // 设置需要生成的表名
 //                            .addTablePrefix("sys_") // 设置过滤表前缀
                             // Entity 策略配置
                             .entityBuilder()
@@ -46,27 +46,7 @@ public class CodeGenerator {
                             .controllerBuilder()
                             .enableFileOverride() // 覆盖已生成文件
                     ;
-                })
-
-//                .templateConfig(builder -> {
-//                    builder.entity("/templates/entity.java.vm")
-//                            .service("/templatesrvice.java.vm")
-//                            .serviceImpl("/templatesrviceImpl.java.vm")
-//                            .controller("/templates/controller.java.vm");
-//                })
-//
-//                //注入配置————自定义模板
-//                .injectionConfig(builder -> builder
-//                        .beforeOutputFile((tableInfo, objectMap) -> {
-//                            System.out.println("tableInfo: " + tableInfo.getEntityName() + " objectMap: " + objectMap.size());
-//                        }) //输出文件之前消费者
-//                        .customMap(Collections.singletonMap("my_field", "自定义配置 Map 对象")) //自定义配置 Map 对象
-//                        .customFile(Collections.singletonMap("query.java", "/templates/query.java.vm")) //自定义配置模板文件
-//                        .build()//加入构建队列
-//                )
-
-                .execute();
-
+                }).execute();
     }
 
     // 处理 all 情况

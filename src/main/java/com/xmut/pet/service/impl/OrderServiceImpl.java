@@ -35,7 +35,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     public Integer generate(Order order) {
         order.setUserId(JwtUtil.getUserId(request.getHeader("token")));
-        order.setStatus(1);
         order.setCreateTime(DateTool.getCurrTime());
         order.setIsComment(false);
         this.save(order);

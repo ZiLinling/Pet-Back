@@ -3,6 +3,7 @@ package com.xmut.pet.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xmut.pet.VO.StoreVO;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Goods;
 import com.xmut.pet.entity.Pet;
@@ -86,5 +87,17 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
             queryWrapper.eq("status", status);
         }
         return goodsService.count(queryWrapper);
+    }
+
+    @Override
+    public StoreVO getStoreVOByGoodsId(Integer goodsId) {
+        StoreVO storeVO = this.baseMapper.getByGoodsId(goodsId);
+        return storeVO;
+    }
+
+    @Override
+    public StoreVO getStoreVOByPetId(Integer petId) {
+        StoreVO storeVO = this.baseMapper.getByGoodsId(petId);
+        return storeVO;
     }
 }
