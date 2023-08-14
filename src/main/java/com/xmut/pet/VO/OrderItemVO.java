@@ -42,14 +42,7 @@ public class OrderItemVO extends BaseEntity implements Serializable {
      * 商品单价
      */
     private Integer price;
-    /**
-     * 订单状态
-     */
-    private Integer status_num;
-    /**
-     * 订单状态
-     */
-    private String status;
+
     /**
      * 商品名称
      */
@@ -67,7 +60,7 @@ public class OrderItemVO extends BaseEntity implements Serializable {
         this.num = orderItem.getNum();
         this.orderId = orderItem.getOrderId();
         this.price = orderItem.getPrice();
-        this.status_num = orderItem.getStatus();
         this.type = orderItem.getType();
     }
+
 }

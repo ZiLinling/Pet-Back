@@ -1,5 +1,7 @@
 package com.xmut.pet.controller;
 
+import com.xmut.pet.VO.OrderItemVO;
+import com.xmut.pet.entity.Order;
 import com.xmut.pet.entity.OrderItem;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.service.OrderItemService;
@@ -9,9 +11,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Zi
@@ -28,8 +33,8 @@ public class OrderItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderItem", dataType = "OrderItem", paramType = "body", value = "订单物品", required = true),
     })
-    public Result generateOrderItem(@RequestBody OrderItem orderItem) {
-        Result result = new Result<>();
+    public Result<OrderItem> generateOrderItem(@RequestBody OrderItem orderItem) {
+        Result<OrderItem> result = new Result<>();
 //        orderItem.setStatus(1);
 //        orderItem.setCreateTime(DateTool.getCurrTime());
         if (orderItemService.generate(orderItem)) {
@@ -43,12 +48,116 @@ public class OrderItemController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")
     @ApiOperation(value = "罗列订单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "order", dataType = "Order", paramType = "body", value = "订单信息", required = true),
-    })
-    public Result listOrder() {
-        Result result = new Result<>();
+    public Result<List<Order>> listOrder() {
+        Result<List<Order>> result = new Result<>();
         result.setData(orderItemService.listOrderItem());
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/toPay")
+    @ApiOperation(value = "支付，修改订单状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids", dataType = "Stirng", paramType = "String", value = "订单项目id的集合", required = true),
+    })
+    public Result<OrderItem> toPay(String ids) {
+        Result<OrderItem> result = new Result<>();
+
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.toPay(idList);
+        result.success("支付成功，等待商家发货");
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/cancelOrderItem")
+    @ApiOperation(value = "取消订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "Integer", value = "订单项目id", required = true),
+    })
+    public Result<OrderItem> cancelOrderItem(String ids) {
+        Result<OrderItem> result = new Result<>();
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.cancelOrderItem(idList);
+        result.success("取消成功");
+        return result;
+    }
+
+    @GetMapping("/getList")
+//    @ApiOperation(value = "分页获取用户列表")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "页码", required = true),
+//            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "页数", required = true),
+//            @ApiImplicitParam(name = "account", dataType = "String", paramType = "query", value = "账号", required = false),
+//            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "用户名", required = false),
+//    })
+    public Result<Result<List<OrderItemVO>>> getList(Integer orderId) {
+        Result<Result<List<OrderItemVO>>> result = new Result<>();
+        result.setData(orderItemService.getListByOrderId(orderId));
+
+        result.success("订单详情:列表请求成功");
+        return result;
+    }
+
+    @PostMapping("/delivery")
+//    @ApiOperation(value = "分页获取用户列表")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "页码", required = true),
+//            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "页数", required = true),
+//            @ApiImplicitParam(name = "account", dataType = "String", paramType = "query", value = "账号", required = false),
+//            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "用户名", required = false),
+//    })
+    public Result delivery(Integer id) {
+        Result result = new Result<>();
+        orderItemService.delivery(id);
+        result.success("发货成功");
+        return result;
+    }
+
+    //    @ApiOperation(value = "分页获取用户列表")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "pageNum", dataType = "Integer", paramType = "query", value = "页码", required = true),
+//            @ApiImplicitParam(name = "pageSize", dataType = "Integer", paramType = "query", value = "页数", required = true),
+//            @ApiImplicitParam(name = "account", dataType = "String", paramType = "query", value = "账号", required = false),
+//            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "用户名", required = false),
+//    })
+    @RequestMapping(method = RequestMethod.POST, value = "/confirm")
+    public Result<OrderItem> confirm(String ids) {
+        Result<OrderItem> result = new Result<>();
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.confirm(idList);
+        result.success("发货成功");
 
         return result;
     }

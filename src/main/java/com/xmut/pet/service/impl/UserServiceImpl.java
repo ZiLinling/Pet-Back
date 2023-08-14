@@ -55,4 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         result.put("total", this.count(queryWrapper));
         return result;
     }
+
+    @Override
+    public User getByid(Integer id) {
+        return this.getById(id);
+    }
 }

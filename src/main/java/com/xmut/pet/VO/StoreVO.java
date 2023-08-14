@@ -23,6 +23,15 @@ public class StoreVO {
     private BigDecimal price;
 
     /**
+     * 订单状态
+     */
+    private Integer status_num;
+    /**
+     * 订单状态
+     */
+    private String status;
+
+    /**
      * item列表
      */
     private List<OrderItemVO> OrderItemVOList;

@@ -21,5 +21,6 @@ public interface UserService extends IService<User> {
 
     Result<Page<User>> page(Integer pageNum, Integer pageSize, String account, String name);
 
+    User getByid(Integer id);
 
 }

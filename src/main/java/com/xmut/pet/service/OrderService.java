@@ -1,7 +1,9 @@
 package com.xmut.pet.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.entity.Order;
+import com.xmut.pet.entity.Result;
 
 import java.util.List;
 
@@ -17,5 +19,8 @@ public interface OrderService extends IService<Order> {
 
     List<Order> getListByUserId(Integer userId);
 
+    Result<Page<Order>> page(Integer pageNum, Integer pageSize, String account, String name);
+
     Integer generate(Order order);
+
 }

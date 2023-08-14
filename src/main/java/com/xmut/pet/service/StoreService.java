@@ -2,7 +2,6 @@ package com.xmut.pet.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xmut.pet.VO.StoreVO;
 import com.xmut.pet.VO.petVO;
 import com.xmut.pet.entity.Store;
 
@@ -26,7 +25,7 @@ public interface StoreService extends IService<Store> {
 
     Long countByGoods(Integer storeId, Integer status);
 
-    StoreVO getStoreVOByGoodsId(Integer goodsId);
+    Store getStoreByGoodsId(Integer goodsId);
 
-    StoreVO getStoreVOByPetId(Integer petId);
+    Store getStoreByPetId(Integer petId);
 }

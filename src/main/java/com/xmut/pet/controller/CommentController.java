@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,16 +26,31 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+
+    @PostMapping("/add")
+    @ApiOperation(value = "新增商品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "comment", dataType = "Comment", paramType = "body", value = "评论信息", required = true),
+    })
+    public Result add(@RequestBody Comment comment) {
+        Result<Comment> result = new Result<>();
+        if (commentService.save(comment)) {
+            result.success("评论:保存成功");
+        } else {
+            result.fail("评论:保存失败");
+        }
+        return result;
+    }
+
     //根据商品id获取评论
     @GetMapping("/getListByGoodsId")
-    @ApiOperation(value="获取商品评论列表")
+    @ApiOperation(value = "获取商品评论列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query",value = "商品id", required = true),
+            @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query", value = "商品id", required = true),
     })
-    public Result<List<Comment>> getListByGoodsId(Integer goodsId)
-    {
+    public Result<List<Comment>> getListByGoodsId(Integer goodsId) {
         Result<List<Comment>> result = new Result<>();
-        List<Comment> commentList=commentService.getListByGoodsId(goodsId);
+        List<Comment> commentList = commentService.getListByGoodsId(goodsId);
         result.success("评论:列表请求成功");
         result.setData(commentList);
         return result;
