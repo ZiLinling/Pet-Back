@@ -32,9 +32,9 @@ public class CommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "comment", dataType = "Comment", paramType = "body", value = "评论信息", required = true),
     })
-    public Result add(@RequestBody Comment comment) {
+    public Result<Comment> add(@RequestBody Comment comment) {
         Result<Comment> result = new Result<>();
-        if (commentService.save(comment)) {
+        if (commentService.add(comment)) {
             result.success("评论:保存成功");
         } else {
             result.fail("评论:保存失败");
@@ -71,4 +71,6 @@ public class CommentController {
         result.setData(commentList);
         return result;
     }
+
+
 }

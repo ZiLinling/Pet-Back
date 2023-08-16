@@ -127,8 +127,8 @@ public class OrderItemController {
 //            @ApiImplicitParam(name = "account", dataType = "String", paramType = "query", value = "账号", required = false),
 //            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "用户名", required = false),
 //    })
-    public Result delivery(Integer id) {
-        Result result = new Result<>();
+    public Result<OrderItem> delivery(Integer id) {
+        Result<OrderItem> result = new Result<>();
         orderItemService.delivery(id);
         result.success("发货成功");
         return result;
@@ -161,4 +161,31 @@ public class OrderItemController {
 
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/toComment")
+    @ApiOperation(value = "评论，修改订单状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids", dataType = "Stirng", paramType = "String", value = "订单项目id的集合", required = true),
+    })
+    public Result<OrderItem> toComment(String ids) {
+        Result<OrderItem> result = new Result<>();
+
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.toComment(idList);
+        result.success("支付成功，等待商家发货");
+        return result;
+    }
+
+
 }

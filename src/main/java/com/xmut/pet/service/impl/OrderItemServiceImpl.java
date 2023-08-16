@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,17 +34,6 @@ import java.util.Map;
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem> implements OrderItemService {
     @Autowired
     private HttpServletRequest request;
-    private static final Map<Integer, String> STATUS_MAP = new HashMap<>();
-
-    static {
-        STATUS_MAP.put(1, "unpaid");
-        STATUS_MAP.put(2, "back");
-        STATUS_MAP.put(3, "unreceived");
-        STATUS_MAP.put(4, "received");
-        STATUS_MAP.put(5, "completed");
-        STATUS_MAP.put(6, "refunds");
-        STATUS_MAP.put(7, "cancelled");
-    }
 
     @Autowired
     private OrderService orderService;
@@ -176,6 +164,16 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
+    public boolean toComment(List<Integer> idList) {
+        for (Integer id : idList) {
+            OrderItem orderItem = this.getById(id);
+            orderItem.setStatus(6);
+            this.updateById(orderItem);
+        }
+        return true;
+    }
+
+    @Override
     public boolean confirm(List<Integer> idList) {
         for (Integer id : idList) {
             OrderItem orderItem = this.getById(id);
@@ -227,7 +225,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public Result<List<OrderItemVO>> getListByOrderId(Integer orderId) {
-        Result<List<OrderItemVO>> All = new Result();
+        Result<List<OrderItemVO>> All = new Result<>();
         QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_id", orderId);
         List<OrderItem> orderItems = this.list(queryWrapper);

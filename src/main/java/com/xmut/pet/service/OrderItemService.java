@@ -27,6 +27,8 @@ public interface OrderItemService extends IService<OrderItem> {
 
     boolean toPay(List<Integer> idList);
 
+    boolean toComment(List<Integer> idList);
+
     boolean cancelOrderItem(List<Integer> idList);
 
     boolean getSum(StoreVO store, OrderItem item);

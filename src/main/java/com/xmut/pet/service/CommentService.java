@@ -1,7 +1,7 @@
 package com.xmut.pet.service;
 
-import com.xmut.pet.entity.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xmut.pet.entity.Comment;
 
 import java.util.List;
 
@@ -18,4 +18,6 @@ public interface CommentService extends IService<Comment> {
     List<Comment> getListByGoodsId(Integer goodsId);
 
     List<Comment> getListByUserId(Integer userId);
+
+    boolean add(Comment comment);
 }
