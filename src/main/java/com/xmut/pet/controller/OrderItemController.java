@@ -79,6 +79,45 @@ public class OrderItemController {
         return result;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/rejected")
+    @ApiOperation(value = "退货，修改订单状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids", dataType = "Stirng", paramType = "String", value = "订单项目id的集合", required = true),
+    })
+    public Result<OrderItem> rejected(String ids) {
+        Result<OrderItem> result = new Result<>();
+
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.rejected(idList);
+        result.success("退货申请提交，等待商家确认");
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/directPayment")
+    @ApiOperation(value = "订单生成时直接付款")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderId", dataType = "integer", paramType = "integer", value = "订单id", required = true),
+    })
+    public Result<OrderItem> directPayment(Integer orderId) {
+        Result<OrderItem> result = new Result<>();
+
+        orderItemService.directPayment(orderId);
+        result.success("支付成功，等待商家发货");
+        return result;
+    }
+
+
     @RequestMapping(method = RequestMethod.POST, value = "/cancelOrderItem")
     @ApiOperation(value = "取消订单")
     @ApiImplicitParams({
@@ -111,8 +150,8 @@ public class OrderItemController {
 //            @ApiImplicitParam(name = "account", dataType = "String", paramType = "query", value = "账号", required = false),
 //            @ApiImplicitParam(name = "name", dataType = "String", paramType = "query", value = "用户名", required = false),
 //    })
-    public Result<Result<List<OrderItemVO>>> getList(Integer orderId) {
-        Result<Result<List<OrderItemVO>>> result = new Result<>();
+    public Result<List<OrderItemVO>> getList(Integer orderId) {
+        Result<List<OrderItemVO>> result = new Result<>();
         result.setData(orderItemService.getListByOrderId(orderId));
 
         result.success("订单详情:列表请求成功");

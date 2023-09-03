@@ -7,13 +7,18 @@ import com.xmut.pet.Utils.DateTool;
 import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.entity.Order;
 import com.xmut.pet.entity.Result;
+import com.xmut.pet.entity.Sales_chart;
 import com.xmut.pet.mapper.OrderMapper;
+import com.xmut.pet.service.OrderItemService;
 import com.xmut.pet.service.OrderService;
+import com.xmut.pet.service.ViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * <p>
@@ -27,6 +32,16 @@ import java.util.List;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private final ViewRepository viewRepository;
+    @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
+    public OrderServiceImpl(ViewRepository viewRepository) {
+        this.viewRepository = viewRepository;
+    }
+
 
     @Override
     public List<Order> getListByUserId(Integer userId) {
@@ -59,5 +74,69 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return result;
     }
 
+    @Override
+    public Map<String, List<String>> getSalesChart(String begin, String end) {
+        Map<String, List<String>> Chart = new HashMap<>();
+        List<String> petSalesChart = new ArrayList<>();
+        List<String> petTimeSalesChart = new ArrayList<>();
+
+        List<String> goodsSalesChart = new ArrayList<>();
+        List<String> goodsTimeSalesChart = new ArrayList<>();
+        List<Sales_chart> salesCharts = this.baseMapper.getChartData();
+
+        String oldTime = null;
+        Integer petCnt = 0, goodsCnt = 0, petSum = 0, goodsSum = 0;
+        for (Sales_chart salesChart : salesCharts) {
+            String initial_time = salesChart.getTime();
+            LocalDateTime parsedDateTime = LocalDateTime.parse(initial_time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String time = parsedDateTime.format(DateTimeFormatter.ofPattern("M.d"));
+            String total_time = parsedDateTime.format(DateTimeFormatter.ofPattern("y.M.d"));
+            //将时间格式修改为几月几日
+            if (total_time.compareTo(end) > 0 || total_time.compareTo(begin) < 0) {
+                System.out.println(total_time.compareTo(end) > 0);
+                System.out.println(total_time.compareTo(begin) < 0);
+                continue;
+            }
+            if (oldTime == null) {
+                oldTime = time;
+            } else if (!Objects.equals(time, oldTime)) {
+
+                //卖的是商品
+                goodsSalesChart.add(String.valueOf(goodsSum));
+                goodsTimeSalesChart.add(oldTime);
+                goodsSum = 0;
+                goodsCnt++;
+
+
+                //卖的是宠物
+                petSalesChart.add(String.valueOf(petSum));
+                petTimeSalesChart.add(oldTime);
+                petSum = 0;
+                petCnt++;
+
+                oldTime = time;
+            }
+            if (salesChart.getType() == 1) {
+                if (salesChart.getStatus() != 7) {
+                    goodsSum += salesChart.getPrice();
+                }
+            } else {
+                if (salesChart.getStatus() != 7) {
+                    petSum += salesChart.getPrice();
+                }
+            }
+        }
+
+        goodsSalesChart.add(String.valueOf(goodsSum));
+        goodsTimeSalesChart.add(oldTime);
+        petSalesChart.add(String.valueOf(petSum));
+        petTimeSalesChart.add(oldTime);
+
+        Chart.put("goods", goodsSalesChart);
+        Chart.put("goodsTime", goodsTimeSalesChart);
+        Chart.put("pet", petSalesChart);
+        Chart.put("petTime", petTimeSalesChart);
+        return Chart;
+    }
 
 }

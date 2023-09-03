@@ -2,9 +2,9 @@ package com.xmut.pet.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xmut.pet.VO.CartVO;
 import com.xmut.pet.VO.GoodsVO;
 import com.xmut.pet.entity.Cart;
+import com.xmut.pet.entity.Store;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -35,9 +35,9 @@ import java.util.List;
 //}
 public interface CartMapper extends BaseMapper<Cart> {
 
-
-    @Select("SELECT DISTINCT  store.id AS storeId,store.name FROM cart,goods,store WHERE user_id = #{ userId } and goods.id=cart.goods_id AND store.id=goods.store_id")
-    List<CartVO> getCartByUserId(Integer userId);
+    //根据userid去查跟该userid有关的购物车列表，然后根据购物车中的商品查询商店
+    @Select("SELECT DISTINCT  store.* FROM cart,goods,store WHERE user_id = #{ userId } and goods.id=cart.goods_id AND store.id=goods.store_id")
+    List<Store> getStoreByUserId(Integer userId);
 
 
     @Select("SELECT cart.id AS cartId ,goods.id AS goodsId,num,selected,name,store_id,stock,price,img,status FROM goods,cart WHERE goods.id = cart.goods_id AND user_id= #{ userId }")

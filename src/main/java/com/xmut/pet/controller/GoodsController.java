@@ -119,4 +119,14 @@ public class GoodsController {
         result.success("商品:列表请求成功");
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getCategorySalesChart")
+    @ApiOperation(value = "返回宠物和商品销售的数据")
+    public Result<List<String>> getCategorySalesChart() {
+        Result<List<String>> result = new Result<>();
+        result.setData(goodsService.getCategorySalesChart());
+        result.success("返回宠物和商品销售的数据");
+        return result;
+    }
+
 }

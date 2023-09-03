@@ -3,6 +3,7 @@ package com.xmut.pet.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xmut.pet.entity.CategoryChart;
 import com.xmut.pet.entity.Goods;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.entity.Store;
@@ -12,6 +13,7 @@ import com.xmut.pet.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,5 +81,25 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return result;
     }
 
+    @Override
+    public List<String> getCategorySalesChart() {
+        List<String> Sums = new ArrayList<>();
+        List<CategoryChart> categoryCharts = this.baseMapper.getCategorySalesChart();
+        Integer toySum = 0, HealthSum = 0, grainSum = 0;
+        for (CategoryChart categoryChart : categoryCharts) {
+            //1-玩具 2-保健  3-主粮
+            if (categoryChart.getCategory() == 1) {
+                toySum += categoryChart.getPrice() * categoryChart.getNum();
+            } else if (categoryChart.getCategory() == 2) {
+                HealthSum += categoryChart.getPrice() * categoryChart.getNum();
+            } else if (categoryChart.getCategory() == 3) {
+                grainSum += categoryChart.getPrice() * categoryChart.getNum();
+            }
+        }
+        Sums.add(String.valueOf(toySum));
+        Sums.add(String.valueOf(HealthSum));
+        Sums.add(String.valueOf(grainSum));
+        return Sums;
+    }
 
 }

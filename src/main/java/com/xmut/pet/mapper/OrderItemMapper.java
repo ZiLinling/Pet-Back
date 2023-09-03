@@ -20,4 +20,6 @@ public interface OrderItemMapper extends BaseMapper<OrderItem> {
 
     @Select("SELECT name,img FROM `pet` where id = #{ petId }")
     Map<String, Object> getOthersByPetId(Integer petId);
+
+
 }

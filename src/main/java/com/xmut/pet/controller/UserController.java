@@ -132,6 +132,15 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/getRole")
+    @ApiOperation(value = "获取会员等级")
+    public Result<Integer> getRole() {
+        Result<Integer> result = new Result<>();
+        result.setData(userService.getRole());
+        result.success("查询成功");
+        return result;
+    }
+
     @GetMapping("/getList")
     @ApiOperation(value = "分页获取用户列表")
     @ApiImplicitParams({

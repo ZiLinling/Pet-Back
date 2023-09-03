@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.entity.Goods;
 import com.xmut.pet.entity.Result;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -18,4 +20,6 @@ public interface GoodsService extends IService<Goods> {
     Result<Page<Goods>> page(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status);
 
     Result<Page<Goods>> pageByGoodsName(Integer pageNum, Integer pageSize, String name);
+
+    List<String> getCategorySalesChart();
 }

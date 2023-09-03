@@ -38,4 +38,8 @@ public class petVO {
     /**
      * 宠物描述
      */
+    private Integer status;
+    /**
+     * 宠物描述
+     */
 }

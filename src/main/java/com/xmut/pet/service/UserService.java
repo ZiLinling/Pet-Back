@@ -23,4 +23,6 @@ public interface UserService extends IService<User> {
 
     User getByid(Integer id);
 
+    Integer getRole();
+
 }

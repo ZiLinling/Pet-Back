@@ -10,9 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Zi
@@ -54,4 +57,15 @@ public class OrderController {
         result.success("商品:列表请求成功");
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getSalesChart")
+    @ApiOperation(value = "返回宠物和商品销售的数据")
+    public Result<Map<String, List<String>>> getSalesChart(String begin, String end) {
+        Result<Map<String, List<String>>> result = new Result<>();
+        result.setData(orderService.getSalesChart(begin, end));
+        result.success("返回宠物和商品销售的数据");
+        return result;
+    }
+
+
 }

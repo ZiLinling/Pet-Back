@@ -5,14 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.VO.OrderItemVO;
 import com.xmut.pet.VO.StoreVO;
-import com.xmut.pet.entity.Order;
-import com.xmut.pet.entity.OrderItem;
-import com.xmut.pet.entity.Result;
-import com.xmut.pet.entity.Store;
+import com.xmut.pet.entity.*;
 import com.xmut.pet.mapper.OrderItemMapper;
-import com.xmut.pet.service.OrderItemService;
-import com.xmut.pet.service.OrderService;
-import com.xmut.pet.service.StoreService;
+import com.xmut.pet.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +34,10 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     private OrderService orderService;
     @Autowired
     private StoreService storeService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private UserService userService;
 
 //    @Override
 //    public List<OrderItem> getListByStoreId(Integer storeId) {
@@ -145,13 +144,43 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public boolean generate(OrderItem orderItem) {
-        if (orderItem.getType() == null) {
-            orderItem.setType(1);
-        }
         this.save(orderItem);
+        if (orderItem.getType() == 0) {
+
+            //如果是宠物就不用删减库存
+            return true;
+        }
+        //订单生成之后减少库存
+        Goods goods = goodsService.getById(orderItem.getItemId());
+        goods.setStock(goods.getStock() - orderItem.getNum());
+        if (goods.getStock() - orderItem.getNum() == 0) {
+            goods.setStatus(0);
+        }
+        goodsService.updateById(goods);
+        Integer userId = JwtUtil.getUserId(request.getHeader("token"));
+        User user = userService.getByid(userId);
+        user.setRole(userService.getRole());
+        userService.updateById(user);
         return true;
     }
 
+    @Override
+    public Integer getCost(Integer userId) {
+        Integer cost = 0;
+        List<Order> orders = orderService.getListByUserId(userId);
+        for (Order order : orders) {
+            QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("order_id", order.getId());
+            List<OrderItem> orderItems = this.list(queryWrapper);
+            for (OrderItem orderItem : orderItems) {
+                if (orderItem.getType() == 1 && orderItem.getStatus() < 7 && orderItem.getStatus() >= 2) {
+                    cost += orderItem.getPrice() * orderItem.getNum();
+                }
+            }
+        }
+        System.out.println("你总共消费了：" + cost + "元");
+        return cost;
+    }
 
     @Override
     public Integer delivery(Integer id) {
@@ -194,9 +223,47 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
+    public boolean directPayment(Integer orderId) {
+        QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_id", orderId);
+        List<OrderItem> orderItems = this.list(queryWrapper);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setStatus(2);
+            this.updateById(orderItem);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean rejected(List<Integer> idList) {
+        for (Integer id : idList) {
+            OrderItem orderItem = this.getById(id);
+            orderItem.setStatus(5);
+            this.updateById(orderItem);
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean cancelOrderItem(List<Integer> idList) {
         for (Integer id : idList) {
             OrderItem orderItem = this.getById(id);
+            //取消订单就把库存加回来
+            Goods goods = goodsService.getById(orderItem.getItemId());
+            goods.setStock(goods.getStock() + orderItem.getNum());
+            if (goods.getStatus() == 0) {
+                goods.setStatus(1);
+            }
+            goodsService.updateById(goods);
+            //item被取消之后，去order中总价扣除一下
+            Order order = orderService.getById(orderItem.getOrderId());
+            BigDecimal unit_price = BigDecimal.valueOf(orderItem.getPrice());
+            BigDecimal result = order.getPrice().subtract(unit_price);
+
+            order.setPrice(result);
+            orderService.updateById(order);
+
             orderItem.setStatus(7);
             this.updateById(orderItem);
         }
@@ -224,8 +291,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
-    public Result<List<OrderItemVO>> getListByOrderId(Integer orderId) {
-        Result<List<OrderItemVO>> All = new Result<>();
+    public List<OrderItemVO> getListByOrderId(Integer orderId) {
         QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_id", orderId);
         List<OrderItem> orderItems = this.list(queryWrapper);
@@ -245,7 +311,9 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
             orderItemVO.setImg((String) others.get("img"));
             orderItemVOList.add(orderItemVO);
         }
-        All.setData(orderItemVOList);
-        return All;
+
+        return orderItemVOList;
     }
+
+
 }

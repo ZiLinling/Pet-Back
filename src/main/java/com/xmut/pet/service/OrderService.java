@@ -6,6 +6,7 @@ import com.xmut.pet.entity.Order;
 import com.xmut.pet.entity.Result;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,4 +24,6 @@ public interface OrderService extends IService<Order> {
 
     Integer generate(Order order);
 
+
+    Map<String, List<String>> getSalesChart(String begin, String end);
 }

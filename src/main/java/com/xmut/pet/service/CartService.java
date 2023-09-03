@@ -1,8 +1,8 @@
 package com.xmut.pet.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xmut.pet.VO.CartVO;
 import com.xmut.pet.entity.Cart;
+import com.xmut.pet.entity.Store;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ import java.util.List;
 public interface CartService extends IService<Cart> {
     boolean save(Integer userId, Integer goodsId, Integer num);
 
-    boolean delete(String ids);
+    boolean delete(String GoodsIds);
 
-    List<CartVO> getAllCart(Integer userId);
+    List<Store> getAllCart(Integer userId);
 
-    boolean updateNum(Integer cartId, Integer num);
+    boolean updateNum(Integer goodsId, Integer num);
 
-    boolean updateSelected(Integer cartId, boolean selected);
+    boolean updateSelected(Integer goodsId, boolean selected);
 
     boolean allSelected(Integer userId, boolean isAllselected);
 }
