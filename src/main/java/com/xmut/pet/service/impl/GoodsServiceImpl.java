@@ -3,12 +3,10 @@ package com.xmut.pet.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xmut.pet.entity.CategoryChart;
-import com.xmut.pet.entity.Goods;
-import com.xmut.pet.entity.Result;
-import com.xmut.pet.entity.Store;
+import com.xmut.pet.entity.*;
 import com.xmut.pet.mapper.GoodsMapper;
 import com.xmut.pet.service.GoodsService;
+import com.xmut.pet.service.OrderItemService;
 import com.xmut.pet.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +27,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Autowired
     private StoreService storeService;
+    @Autowired
+    private OrderItemService orderItemService;
 
     @Override
     public Result<Page<Goods>> page(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status) {
@@ -102,4 +102,25 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return Sums;
     }
 
+    @Override
+    public boolean reduceStock(OrderItem orderItem) {
+        //根据订单详情列减少库存
+        OrderItem item = orderItemService.getById(orderItem.getId());
+        Integer difference = 0;
+        if (item == null) {
+            difference = orderItem.getNum();
+        } else if (orderItem.getNum() != item.getNum()) {
+            //作差，如果新的比旧的大，后续库存减去更多的。反之，负负得正就会增加
+            difference = orderItem.getNum() - item.getNum();
+        }
+        Goods goods = this.getById(orderItem.getItemId());
+        goods.setStock(goods.getStock() - difference);
+        if (goods.getStock() == 0) {
+            goods.setStatus(0);
+        } else {
+            goods.setStatus(1);
+        }
+        this.updateById(goods);
+        return true;
+    }
 }

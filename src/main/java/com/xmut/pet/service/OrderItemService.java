@@ -20,6 +20,8 @@ public interface OrderItemService extends IService<OrderItem> {
 
     List<OrderItemVO> getListByOrderId(Integer orderId);
 
+    List<OrderItem> getOrderItemsByOrderId(Integer orderId);
+
     boolean generate(OrderItem orderItem);
 
     List<Order> listOrderItem();

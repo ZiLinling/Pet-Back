@@ -38,6 +38,8 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     private GoodsService goodsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PetService petService;
 
 //    @Override
 //    public List<OrderItem> getListByStoreId(Integer storeId) {
@@ -144,23 +146,19 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public boolean generate(OrderItem orderItem) {
-        this.save(orderItem);
+        if (orderItem.getStatus() == null) {
+            orderItem.setStatus(1);
+        }
         if (orderItem.getType() == 0) {
-
-            //如果是宠物就不用删减库存
+            Pet pet = petService.getById(orderItem.getItemId());
+            pet.setStatus(0);
+            petService.updateById(pet);
+            //如果是宠物就不用删减库存,直接给他状态设置为0，为0不显示
             return true;
         }
         //订单生成之后减少库存
-        Goods goods = goodsService.getById(orderItem.getItemId());
-        goods.setStock(goods.getStock() - orderItem.getNum());
-        if (goods.getStock() - orderItem.getNum() == 0) {
-            goods.setStatus(0);
-        }
-        goodsService.updateById(goods);
-        Integer userId = JwtUtil.getUserId(request.getHeader("token"));
-        User user = userService.getByid(userId);
-        user.setRole(userService.getRole());
-        userService.updateById(user);
+        goodsService.reduceStock(orderItem);
+        this.save(orderItem);
         return true;
     }
 
@@ -249,6 +247,13 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     public boolean cancelOrderItem(List<Integer> idList) {
         for (Integer id : idList) {
             OrderItem orderItem = this.getById(id);
+            if (orderItem.getType() == 0) {
+                Pet pet = petService.getById(orderItem.getItemId());
+                pet.setStatus(1);
+                petService.updateById(pet);
+                //如果是宠物就不用增加库存,直接给他状态设置为1，继续售卖
+                continue;
+            }
             //取消订单就把库存加回来
             Goods goods = goodsService.getById(orderItem.getItemId());
             goods.setStock(goods.getStock() + orderItem.getNum());
@@ -315,5 +320,11 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         return orderItemVOList;
     }
 
+    @Override
+    public List<OrderItem> getOrderItemsByOrderId(Integer orderId) {
+        QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_id", orderId);
+        return this.list(queryWrapper);
+    }
 
 }

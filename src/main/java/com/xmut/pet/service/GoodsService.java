@@ -3,6 +3,7 @@ package com.xmut.pet.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.entity.Goods;
+import com.xmut.pet.entity.OrderItem;
 import com.xmut.pet.entity.Result;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface GoodsService extends IService<Goods> {
     Result<Page<Goods>> pageByGoodsName(Integer pageNum, Integer pageSize, String name);
 
     List<String> getCategorySalesChart();
+
+    boolean reduceStock(OrderItem orderItem);
 }

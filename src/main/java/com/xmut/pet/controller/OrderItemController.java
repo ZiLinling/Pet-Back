@@ -4,6 +4,7 @@ import com.xmut.pet.VO.OrderItemVO;
 import com.xmut.pet.entity.Order;
 import com.xmut.pet.entity.OrderItem;
 import com.xmut.pet.entity.Result;
+import com.xmut.pet.service.GoodsService;
 import com.xmut.pet.service.OrderItemService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,6 +29,8 @@ import java.util.List;
 public class OrderItemController {
     @Autowired
     private OrderItemService orderItemService;
+    @Autowired
+    private GoodsService goodsService;
 
     @PostMapping("/generate")
     @ApiOperation(value = "生成订单")
@@ -226,5 +230,42 @@ public class OrderItemController {
         return result;
     }
 
+    @PostMapping("/delete")
+    @ApiOperation(value = "删除订单列")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids", dataType = "Integer", paramType = "query", value = "订单列id列表", required = true),
+    })
+    public Result<OrderItem> delete(String ids) {
+        Result<OrderItem> result = new Result<>();
+        List<String> idList = Arrays.asList(ids.split(","));
+        for (String id : idList) {
+            OrderItem orderItem = orderItemService.getById(id);
+            orderItem.setNum(0);
+            goodsService.reduceStock(orderItem);
+        }
+        if (orderItemService.removeByIds(idList)) {
+            result.success("删除成功");
+            //订单删除的时候要记得把库存加回来
+        } else {
+            result.fail("删除失败");
+        }
+        return result;
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "更新订单列信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderItem", dataType = "OrderItem", paramType = "body", value = "订单列信息", required = true),
+    })
+    public Result<OrderItem> update(@RequestBody OrderItem orderItem) {
+        Result<OrderItem> result = new Result<>();
+        goodsService.reduceStock(orderItem);
+        if (orderItemService.updateById(orderItem)) {
+            result.success("更新成功");
+        } else {
+            result.fail("更新失败");
+        }
+        return result;
+    }
 
 }

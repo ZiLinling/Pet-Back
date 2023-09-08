@@ -11,7 +11,6 @@ import com.xmut.pet.entity.Sales_chart;
 import com.xmut.pet.mapper.OrderMapper;
 import com.xmut.pet.service.OrderItemService;
 import com.xmut.pet.service.OrderService;
-import com.xmut.pet.service.ViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,25 +32,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Autowired
     private HttpServletRequest request;
     @Autowired
-    private final ViewRepository viewRepository;
-    @Autowired
     private OrderItemService orderItemService;
 
-    @Autowired
-    public OrderServiceImpl(ViewRepository viewRepository) {
-        this.viewRepository = viewRepository;
-    }
 
 
     @Override
     public List<Order> getListByUserId(Integer userId) {
-        QueryWrapper<Order> queryWrapper = new QueryWrapper();
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         return this.list(queryWrapper);
     }
 
     public Integer generate(Order order) {
-        order.setUserId(JwtUtil.getUserId(request.getHeader("token")));
+        if (order.getUserId() == null) {
+            order.setUserId(JwtUtil.getUserId(request.getHeader("token")));
+        }
         order.setCreateTime(DateTool.getCurrTime());
         order.setIsComment(false);
         this.save(order);
