@@ -40,9 +40,11 @@ public interface OrderItemService extends IService<OrderItem> {
 
     boolean confirm(List<Integer> idList);
 
-    boolean directPayment(Integer orderId);
+//    boolean directPayment(Integer orderId);
 
     Integer getCost(Integer userId);
 
+    boolean identify(List<Integer> idList);
 
+    boolean reject(List<Integer> idList);
 }

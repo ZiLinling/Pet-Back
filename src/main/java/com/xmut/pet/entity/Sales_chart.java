@@ -31,5 +31,9 @@ public class Sales_chart {
      * 创建时间
      */
     private String time;
+    /**
+     * 数量
+     */
+    private Integer num;
 
 }

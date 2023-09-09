@@ -7,6 +7,7 @@ import com.xmut.pet.entity.*;
 import com.xmut.pet.mapper.GoodsMapper;
 import com.xmut.pet.service.GoodsService;
 import com.xmut.pet.service.OrderItemService;
+import com.xmut.pet.service.PetService;
 import com.xmut.pet.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private StoreService storeService;
     @Autowired
     private OrderItemService orderItemService;
+    @Autowired
+    private PetService petService;
 
     @Override
     public Result<Page<Goods>> page(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status) {
@@ -123,4 +126,25 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         this.updateById(goods);
         return true;
     }
+
+    @Override
+    public boolean returnStock(OrderItem orderItem) {
+        if (orderItem.getType() == 0) {
+            Pet pet = petService.getById(orderItem.getItemId());
+            pet.setStatus(1);
+            petService.updateById(pet);
+            //如果是宠物就不用增加库存,直接给他状态设置为1，继续售卖
+            return true;
+        }
+        //取消订单就把库存加回来
+        Goods goods = this.getById(orderItem.getItemId());
+        goods.setStock(goods.getStock() + orderItem.getNum());
+        if (goods.getStatus() == 0) {
+            goods.setStatus(1);
+        }
+        this.updateById(goods);
+        return true;
+    }
+
+    ;
 }

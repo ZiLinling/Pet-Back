@@ -20,4 +20,6 @@ public interface CommentService extends IService<Comment> {
     List<Comment> getListByUserId(Integer userId);
 
     boolean add(Comment comment);
+
+    boolean addAdditional(Integer commentId, String additional);
 }

@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.VO.OrderItemVO;
 import com.xmut.pet.VO.StoreVO;
-import com.xmut.pet.entity.*;
+import com.xmut.pet.entity.Order;
+import com.xmut.pet.entity.OrderItem;
+import com.xmut.pet.entity.Pet;
+import com.xmut.pet.entity.Store;
 import com.xmut.pet.mapper.OrderItemMapper;
 import com.xmut.pet.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,17 +223,17 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         return true;
     }
 
-    @Override
-    public boolean directPayment(Integer orderId) {
-        QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("order_id", orderId);
-        List<OrderItem> orderItems = this.list(queryWrapper);
-        for (OrderItem orderItem : orderItems) {
-            orderItem.setStatus(2);
-            this.updateById(orderItem);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean directPayment(Integer orderId) {
+//        QueryWrapper<OrderItem> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.eq("order_id", orderId);
+//        List<OrderItem> orderItems = this.list(queryWrapper);
+//        for (OrderItem orderItem : orderItems) {
+//            orderItem.setStatus(2);
+//            this.updateById(orderItem);
+//        }
+//        return true;
+//    }
 
     @Override
     public boolean rejected(List<Integer> idList) {
@@ -244,31 +247,49 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
-    public boolean cancelOrderItem(List<Integer> idList) {
+    public boolean identify(List<Integer> idList) {
+        //退款
         for (Integer id : idList) {
             OrderItem orderItem = this.getById(id);
-            if (orderItem.getType() == 0) {
-                Pet pet = petService.getById(orderItem.getItemId());
-                pet.setStatus(1);
-                petService.updateById(pet);
-                //如果是宠物就不用增加库存,直接给他状态设置为1，继续售卖
-                continue;
+            //恢复库存
+            if (orderItem.getType() == 1) {
+                goodsService.returnStock(orderItem);
+            } else if (orderItem.getType() == 0) {
+                petService.returnPet(orderItem);
             }
-            //取消订单就把库存加回来
-            Goods goods = goodsService.getById(orderItem.getItemId());
-            goods.setStock(goods.getStock() + orderItem.getNum());
-            if (goods.getStatus() == 0) {
-                goods.setStatus(1);
+            orderItem.setStatus(8);
+            this.updateById(orderItem);
+        }
+        return true;
+    }
+
+    ;
+
+    @Override
+    public boolean reject(List<Integer> idList) {
+        //退款
+        for (Integer id : idList) {
+            OrderItem orderItem = this.getById(id);
+            orderItem.setStatus(3);
+            this.updateById(orderItem);
+        }
+        return true;
+    }
+
+    ;
+
+
+    @Override
+    public boolean cancelOrderItem(List<Integer> idList) {
+        //取消
+        for (Integer id : idList) {
+            OrderItem orderItem = this.getById(id);
+            //恢复库存
+            if (orderItem.getType() == 1) {
+                goodsService.returnStock(orderItem);
+            } else if (orderItem.getType() == 0) {
+                petService.returnPet(orderItem);
             }
-            goodsService.updateById(goods);
-            //item被取消之后，去order中总价扣除一下
-            Order order = orderService.getById(orderItem.getOrderId());
-            BigDecimal unit_price = BigDecimal.valueOf(orderItem.getPrice());
-            BigDecimal result = order.getPrice().subtract(unit_price);
-
-            order.setPrice(result);
-            orderService.updateById(order);
-
             orderItem.setStatus(7);
             this.updateById(orderItem);
         }

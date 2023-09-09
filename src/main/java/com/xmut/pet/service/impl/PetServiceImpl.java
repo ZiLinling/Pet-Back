@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xmut.pet.VO.petVO;
+import com.xmut.pet.entity.OrderItem;
 import com.xmut.pet.entity.Pet;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.mapper.PetMapper;
@@ -74,5 +75,13 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
         result.setData(this.page(page, queryWrapper));
         result.put("total", this.count(queryWrapper));
         return result;
+    }
+
+    @Override
+    public boolean returnPet(OrderItem orderItem) {
+        Pet pet = this.getById(orderItem.getItemId());
+        pet.setStatus(1);
+        this.updateById(pet);
+        return true;
     }
 }

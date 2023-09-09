@@ -25,4 +25,6 @@ public interface GoodsService extends IService<Goods> {
     List<String> getCategorySalesChart();
 
     boolean reduceStock(OrderItem orderItem);
+
+    boolean returnStock(OrderItem orderItem);
 }

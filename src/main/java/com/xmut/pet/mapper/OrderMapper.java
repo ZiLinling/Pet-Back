@@ -20,6 +20,6 @@ public interface OrderMapper extends BaseMapper<Order> {
     @Select("SELECT DISTINCT store.id AS storeId,store.name FROM order,goods,store WHERE user_id = #{ userId } and goods.id=order_item.item_id AND store.id=goods.store_id")
     List<OrderVO> getOrderVOByUserId(Integer userId);
 
-    @Select("select distinct `o`.`id` AS `id`,`i`.`type` AS `type`,`o`.`price` AS `price`,`i`.`order_id` AS `order_id`,`i`.`status` AS `status`,`o`.`create_time` AS `time` from (`order_item` `i` join `order` `o` on((`o`.`id` = `i`.`order_id`)))\n")
+    @Select("select distinct `i`.`id` AS `id`,`i`.`num` AS `num`,`i`.`type` AS `type`,`i`.`price` AS `price`,`i`.`order_id` AS `order_id`,`i`.`status` AS `status`,`o`.`create_time` AS `time` from (`order_item` `i` join `order` `o` on((`o`.`id` = `i`.`order_id`)))")
     List<Sales_chart> getChartData();
 }

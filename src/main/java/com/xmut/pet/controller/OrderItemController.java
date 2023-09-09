@@ -108,18 +108,18 @@ public class OrderItemController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/directPayment")
-    @ApiOperation(value = "订单生成时直接付款")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", dataType = "integer", paramType = "integer", value = "订单id", required = true),
-    })
-    public Result<OrderItem> directPayment(Integer orderId) {
-        Result<OrderItem> result = new Result<>();
-
-        orderItemService.directPayment(orderId);
-        result.success("支付成功，等待商家发货");
-        return result;
-    }
+//    @RequestMapping(method = RequestMethod.POST, value = "/directPayment")
+//    @ApiOperation(value = "订单生成时直接付款")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "orderId", dataType = "integer", paramType = "integer", value = "订单id", required = true),
+//    })
+//    public Result<OrderItem> directPayment(Integer orderId) {
+//        Result<OrderItem> result = new Result<>();
+//
+//        orderItemService.directPayment(orderId);
+//        result.success("支付成功，等待商家发货");
+//        return result;
+//    }
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/cancelOrderItem")
@@ -142,6 +142,54 @@ public class OrderItemController {
             }
         }
         orderItemService.cancelOrderItem(idList);
+        result.success("取消成功");
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/identify")
+    @ApiOperation(value = "退款订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "Integer", value = "订单项目id", required = true),
+    })
+    public Result<OrderItem> identify(String ids) {
+        Result<OrderItem> result = new Result<>();
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.identify(idList);
+        result.success("取消成功");
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/reject")
+    @ApiOperation(value = "退款订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "Integer", value = "订单项目id", required = true),
+    })
+    public Result<OrderItem> reject(String ids) {
+        Result<OrderItem> result = new Result<>();
+        List<Integer> idList = new ArrayList<>();
+
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            try {
+                int parsedId = Integer.parseInt(id);
+                idList.add(parsedId);
+            } catch (NumberFormatException e) {
+                // 处理无法解析为整数的情况
+                System.out.println("无法解析的整数: " + id);
+            }
+        }
+        orderItemService.reject(idList);
         result.success("取消成功");
         return result;
     }

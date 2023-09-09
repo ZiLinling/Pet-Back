@@ -80,7 +80,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         List<Sales_chart> salesCharts = this.baseMapper.getChartData();
 
         String oldTime = null;
-        Integer petCnt = 0, goodsCnt = 0, petSum = 0, goodsSum = 0;
+        Integer cnt = 0, petSum = 0, goodsSum = 0;
         for (Sales_chart salesChart : salesCharts) {
             String initial_time = salesChart.getTime();
             LocalDateTime parsedDateTime = LocalDateTime.parse(initial_time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -100,23 +100,23 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 goodsSalesChart.add(String.valueOf(goodsSum));
                 goodsTimeSalesChart.add(oldTime);
                 goodsSum = 0;
-                goodsCnt++;
 
 
                 //卖的是宠物
                 petSalesChart.add(String.valueOf(petSum));
                 petTimeSalesChart.add(oldTime);
                 petSum = 0;
-                petCnt++;
+
+                cnt++;
 
                 oldTime = time;
             }
             if (salesChart.getType() == 1) {
-                if (salesChart.getStatus() != 7) {
-                    goodsSum += salesChart.getPrice();
+                if (salesChart.getStatus() < 7 && salesChart.getStatus() > 1) {
+                    goodsSum += salesChart.getPrice() * salesChart.getNum();
                 }
             } else {
-                if (salesChart.getStatus() != 7) {
+                if (salesChart.getStatus() < 7 && salesChart.getStatus() > 1) {
                     petSum += salesChart.getPrice();
                 }
             }
