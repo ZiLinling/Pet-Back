@@ -3,6 +3,7 @@ package com.xmut.pet.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xmut.pet.entity.Comment;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -15,11 +16,13 @@ import java.util.List;
  */
 public interface CommentService extends IService<Comment> {
 
-    List<Comment> getListByGoodsId(Integer goodsId);
+    List<Comment> getListByGoodsId(Integer goodsId) throws ParseException;
 
     List<Comment> getListByUserId(Integer userId);
 
     boolean add(Comment comment);
 
     boolean addAdditional(Integer commentId, String additional);
+
+    Comment getBestCommentByGoodsId(Integer goodsId);
 }

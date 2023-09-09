@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,15 +35,34 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private UserService userService;
 
     @Override
-    public List<Comment> getListByGoodsId(Integer goodsId) {
+    public List<Comment> getListByGoodsId(Integer goodsId) throws ParseException {
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("goods_id", goodsId);
         List<Comment> comments = this.list(queryWrapper);
         for (Comment comment : comments) {
             User user = userService.getById(comment.getUserId());
             comment.put("user", user);
+            comment.put("text", "");
+
+            String date = DateTool.getCurrTime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date Comment = format.parse(comment.getCreateTime());
+            Date Additional = format.parse(date);
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(Comment);//把获取的入住时间年月日放入Calendar中
+            Calendar c2 = Calendar.getInstance();
+            c2.setTime(Additional);//把获取的退房时间年月日放入Calendar中
+            int days = c2.get(Calendar.DAY_OF_YEAR) - c1.get(Calendar.DAY_OF_YEAR);
+            comment.put("date", days);
+
         }
         return comments;
+    }
+
+    @Override
+    public Comment getBestCommentByGoodsId(Integer goodsId) {
+
+        return this.getBestCommentByGoodsId(goodsId);
     }
 
     @Override
@@ -58,4 +81,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
         return true;
     }
+
+    @Override
+    public boolean addAdditional(Integer commentId, String additional) {
+        Comment comment = this.getById(commentId);
+        comment.setAdditional(additional);
+        this.updateById(comment);
+        return true;
+    }
+
 }

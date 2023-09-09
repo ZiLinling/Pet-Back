@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class CommentController {
 
 
     @PostMapping("/add")
-    @ApiOperation(value = "新增商品")
+    @ApiOperation(value = "新增评论")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "comment", dataType = "Comment", paramType = "body", value = "评论信息", required = true),
     })
@@ -42,13 +43,28 @@ public class CommentController {
         return result;
     }
 
+    @PostMapping("/addAdditional")
+    @ApiOperation(value = "新增评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "comment", dataType = "Comment", paramType = "body", value = "评论信息", required = true),
+    })
+    public Result<Comment> addAdditional(Integer commentId, String additional) {
+        Result<Comment> result = new Result<>();
+        if (commentService.addAdditional(commentId, additional)) {
+            result.success("评论:保存成功");
+        } else {
+            result.fail("评论:保存失败");
+        }
+        return result;
+    }
+
     //根据商品id获取评论
     @GetMapping("/getListByGoodsId")
     @ApiOperation(value = "获取商品评论列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsId", dataType = "Integer", paramType = "query", value = "商品id", required = true),
     })
-    public Result<List<Comment>> getListByGoodsId(Integer goodsId) {
+    public Result<List<Comment>> getListByGoodsId(Integer goodsId) throws ParseException {
         Result<List<Comment>> result = new Result<>();
         List<Comment> commentList = commentService.getListByGoodsId(goodsId);
         result.success("评论:列表请求成功");

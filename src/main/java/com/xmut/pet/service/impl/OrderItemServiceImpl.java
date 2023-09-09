@@ -61,6 +61,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
             queryWrapper.eq("order_id", order.getId());
             List<OrderItem> orderItems = this.list(queryWrapper);
             List<OrderItem> itemsInStore = new ArrayList<>();
+            System.out.println(orderItems);
             List<Store> stores = new ArrayList<>();
             for (OrderItem orderItem : orderItems) {
                 Store new_store;
