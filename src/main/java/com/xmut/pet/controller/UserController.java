@@ -58,8 +58,7 @@ public class UserController {
     })
     public Result register(@RequestBody User user) {
         Result result = new Result<>();
-        user.setStatus(1);
-        user.setCreateTime(DateTool.getCurrTime());
+
         if (userService.register(user)) {
             result.setData(JwtUtil.generateToken(user));
             result.success("注册成功,自动登录");
