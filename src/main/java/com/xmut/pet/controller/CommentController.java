@@ -44,7 +44,7 @@ public class CommentController {
     }
 
     @PostMapping("/addAdditional")
-    @ApiOperation(value = "新增评论")
+    @ApiOperation(value = "追加评论")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "comment", dataType = "Comment", paramType = "body", value = "评论信息", required = true),
     })
@@ -77,14 +77,30 @@ public class CommentController {
     @GetMapping("/getListByUserId")
     @ApiOperation(value="获取用户评论列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query",value = "用户id", required = true),
+            @ApiImplicitParam(name = "userId", dataType = "Integer", paramType = "query", value = "用户id", required = true),
     })
-    public Result<List<Comment>> getListByUserId(Integer userId)
-    {
+    public Result<List<Comment>> getListByUserId(Integer userId) {
         Result<List<Comment>> result = new Result<>();
-        List<Comment> commentList=commentService.getListByUserId(userId);
+        List<Comment> commentList = commentService.getListByUserId(userId);
         result.success("评论:列表请求成功");
         result.setData(commentList);
+        return result;
+    }
+
+    @PostMapping("/getBestComment")
+    @ApiOperation(value = "获得最好的评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "comment", dataType = "Comment", paramType = "body", value = "评论信息", required = true),
+    })
+    public Result<Comment> getBestComment(Integer goodsId) {
+        Result<Comment> result = new Result<>();
+        Comment comment = commentService.getBestCommentByGoodsId(goodsId);
+        if (comment == null) {
+            result.fail("没有评论");
+        } else {
+            result.setData(comment);
+            result.success("获取最佳评论");
+        }
         return result;
     }
 

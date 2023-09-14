@@ -157,6 +157,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
             Pet pet = petService.getById(orderItem.getItemId());
             pet.setStatus(0);
             petService.updateById(pet);
+            this.save(orderItem);
             //如果是宠物就不用删减库存,直接给他状态设置为0，为0不显示
             return true;
         }
