@@ -61,8 +61,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public Comment getBestCommentByGoodsId(Integer goodsId) {
+        Comment comment = this.baseMapper.getBestCommentByGoodsId(goodsId);
+        comment.put("user", userService.getById(comment.getUserId()));
 
-        return this.getBestCommentByGoodsId(goodsId);
+        return comment;
     }
 
     @Override
