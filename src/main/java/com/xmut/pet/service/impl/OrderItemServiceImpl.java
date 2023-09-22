@@ -89,7 +89,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
                 if (orderItems.size() == 1) {
                     new_store.put("orderItems", orderItems);
                     new_store.put("num", 1);
-                    new_store.put("price", orderItem.getPrice());
+                    new_store.put("price", orderItem.getPrice()*orderItem.getNum());
                     new_store.put("time", order.getCreateTime());
                     stores.add(new_store);
                     break;
@@ -149,7 +149,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
-    public boolean generate(OrderItem orderItem) {
+    public Integer generate(OrderItem orderItem) {
         if (orderItem.getStatus() == null) {
             orderItem.setStatus(1);
         }
@@ -159,12 +159,12 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
             petService.updateById(pet);
             this.save(orderItem);
             //如果是宠物就不用删减库存,直接给他状态设置为0，为0不显示
-            return true;
+            return orderItem.getId();
         }
         //订单生成之后减少库存
         goodsService.reduceStock(orderItem);
         this.save(orderItem);
-        return true;
+        return orderItem.getId();
     }
 
     @Override
@@ -238,10 +238,15 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 //    }
 
     @Override
-    public boolean rejected(List<Integer> idList) {
+    public boolean rejected(List<Integer> idList,String rejectReason) {
+        //提出退款申请
         for (Integer id : idList) {
+            if(rejectReason==null||rejectReason=="null"){
+                continue;
+            }
             OrderItem orderItem = this.getById(id);
             orderItem.setStatus(5);
+            orderItem.setRejectReason(rejectReason);
             this.updateById(orderItem);
         }
 
@@ -249,7 +254,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     }
 
     @Override
-    public boolean identify(List<Integer> idList) {
+    public boolean identify(List<Integer> idList,String rejectReason) {
         //退款
         for (Integer id : idList) {
             OrderItem orderItem = this.getById(id);
@@ -258,6 +263,9 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
                 goodsService.returnStock(orderItem);
             } else if (orderItem.getType() == 0) {
                 petService.returnPet(orderItem);
+            }
+            if(rejectReason!=null){
+                orderItem.setRejectReason(rejectReason);
             }
             orderItem.setStatus(8);
             this.updateById(orderItem);
@@ -269,7 +277,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 
     @Override
     public boolean reject(List<Integer> idList) {
-        //退款
+        //拒绝退款
         for (Integer id : idList) {
             OrderItem orderItem = this.getById(id);
             orderItem.setStatus(3);

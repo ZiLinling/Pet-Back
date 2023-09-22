@@ -38,8 +38,25 @@ files:
   upload:
     path: src/main/resources/static/images/
 
-#服务器
+  spring:
+    redis:
+      database: 0 # Database index used by the connection factory.
+      host: localhost # Redis server host.
+      port: 6379 # Redis server port.
+      password:  # Login password of the redis server.
+      timeout: 3000 # Connection timeout.
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: 1
+          min-idle: 0
+          max-idle: 8
 
+  logging:
+    level:
+      com.mk: debug
+
+#服务器
 #files:
 #  upload:
 #    path: resource/images/

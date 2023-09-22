@@ -54,4 +54,8 @@ public class OrderItem extends BaseEntity implements Serializable {
      * 订单状态
      */
     private Integer status;
+    /**
+     * 退货理由
+     */
+    private String rejectReason;
 }

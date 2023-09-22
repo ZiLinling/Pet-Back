@@ -66,7 +66,6 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, Pet> implements PetSe
         Page<Pet> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Pet> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("store_id", storeId);
-        queryWrapper.eq("status", 1);
         if (name != null && !name.equals("")) {
             queryWrapper.like("name", name);
         }

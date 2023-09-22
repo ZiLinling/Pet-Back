@@ -52,6 +52,10 @@ public class OrderItemVO extends BaseEntity implements Serializable {
      * 商品图片
      */
     private String img;
+    /**
+     * 退货理由
+     */
+    private String rejectReason;
 
 
     public OrderItemVO(OrderItem orderItem) {
@@ -61,6 +65,8 @@ public class OrderItemVO extends BaseEntity implements Serializable {
         this.orderId = orderItem.getOrderId();
         this.price = orderItem.getPrice();
         this.type = orderItem.getType();
+        this.rejectReason=orderItem.getRejectReason();
+
     }
 
 }

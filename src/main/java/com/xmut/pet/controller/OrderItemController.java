@@ -37,16 +37,13 @@ public class OrderItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderItem", dataType = "OrderItem", paramType = "body", value = "订单物品", required = true),
     })
-    public Result<OrderItem> generateOrderItem(@RequestBody OrderItem orderItem) {
-        Result<OrderItem> result = new Result<>();
+    public Result<Integer> generateOrderItem(@RequestBody OrderItem orderItem) {
+        Result<Integer> result = new Result<>();
 //        orderItem.setStatus(1);
-//        orderItem.setCreateTime(DateTool.getCurrTime());
-        if (orderItemService.generate(orderItem)) {
-
+//        orderItem.setCreateTime(DateTool.getCurrTime());{
+            result.setData(orderItemService.generate(orderItem));
             result.success("订单信息生成成功");
-        } else {
-            result.fail("订单信息生成失败");
-        }
+
         return result;
     }
 
@@ -88,7 +85,7 @@ public class OrderItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ids", dataType = "Stirng", paramType = "String", value = "订单项目id的集合", required = true),
     })
-    public Result<OrderItem> rejected(String ids) {
+    public Result<OrderItem> rejected(String ids,String rejectReason) {
         Result<OrderItem> result = new Result<>();
 
         List<Integer> idList = new ArrayList<>();
@@ -103,7 +100,7 @@ public class OrderItemController {
                 System.out.println("无法解析的整数: " + id);
             }
         }
-        orderItemService.rejected(idList);
+        orderItemService.rejected(idList,rejectReason);
         result.success("退货申请提交，等待商家确认");
         return result;
     }
@@ -151,7 +148,7 @@ public class OrderItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", dataType = "Integer", paramType = "Integer", value = "订单项目id", required = true),
     })
-    public Result<OrderItem> identify(String ids) {
+    public Result<OrderItem> identify(String ids,String rejectReason) {
         Result<OrderItem> result = new Result<>();
         List<Integer> idList = new ArrayList<>();
 
@@ -165,7 +162,7 @@ public class OrderItemController {
                 System.out.println("无法解析的整数: " + id);
             }
         }
-        orderItemService.identify(idList);
+        orderItemService.identify(idList,rejectReason);
         result.success("取消成功");
         return result;
     }
@@ -315,5 +312,6 @@ public class OrderItemController {
         }
         return result;
     }
+
 
 }

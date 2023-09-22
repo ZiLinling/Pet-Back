@@ -7,9 +7,11 @@ import com.xmut.pet.service.GoodsService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+//import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
+//    private Recommender recommender;
 
     //添加商品
     @PostMapping("/add")
@@ -101,8 +104,9 @@ public class GoodsController {
             @ApiImplicitParam(name = "category", dataType = "Integer", paramType = "query", value = "分类"),
             @ApiImplicitParam(name = "status", dataType = "Integer", paramType = "query", value = "状态"),
     })
-    public Result<Page<Goods>> getList(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status) {
+    public Result<Page<Goods>> getList(Integer pageNum, Integer pageSize, Integer storeId, String name, Integer category, Integer status) throws IOException {
         Result<Page<Goods>> result = goodsService.page(pageNum, pageSize, storeId, name, category, status);
+
         result.success("商品:列表请求成功");
         return result;
     }

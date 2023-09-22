@@ -50,6 +50,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if (storeId != null) {
             queryWrapper.eq("store_id", storeId);
         }
+        //根据库存排序
+        queryWrapper.orderByDesc("stock");
         page = this.page(page, queryWrapper);
         List<Goods> goodsList = page.getRecords();
         for (Goods goods : goodsList) {

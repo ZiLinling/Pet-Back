@@ -22,7 +22,7 @@ public interface OrderItemService extends IService<OrderItem> {
 
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
 
-    boolean generate(OrderItem orderItem);
+    Integer generate(OrderItem orderItem);
 
     List<Order> listOrderItem();
 
@@ -32,7 +32,7 @@ public interface OrderItemService extends IService<OrderItem> {
 
     boolean cancelOrderItem(List<Integer> idList);
 
-    boolean rejected(List<Integer> idList);
+    boolean rejected(List<Integer> idList,String rejectReason);
 
     boolean getSum(StoreVO store, OrderItem item);
 
@@ -44,7 +44,8 @@ public interface OrderItemService extends IService<OrderItem> {
 
     Integer getCost(Integer userId);
 
-    boolean identify(List<Integer> idList);
+    boolean identify(List<Integer> idList,String rejectReason);
 
     boolean reject(List<Integer> idList);
+
 }

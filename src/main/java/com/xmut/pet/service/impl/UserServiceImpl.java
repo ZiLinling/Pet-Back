@@ -3,7 +3,6 @@ package com.xmut.pet.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xmut.pet.Utils.DateTool;
 import com.xmut.pet.Utils.JwtUtil;
 import com.xmut.pet.entity.Result;
 import com.xmut.pet.entity.User;
@@ -42,9 +41,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Boolean register(User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", user.getAccount());
-        user.setStatus(1);
-        user.setCreateTime(DateTool.getCurrTime());
-        user.setImg(null);
         user.setRole(0);
         if (this.count(queryWrapper) != 0) {
             return false;
@@ -58,7 +54,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Integer getRole() {
         Integer userId = JwtUtil.getUserId(request.getHeader("token"));
         Integer Cost = orderItemService.getCost(userId);
+
         Integer role = 0;
+        //多一个表存等级
         if (Cost > 8000) {
             role = 6;
         } else if (Cost > 5000) {

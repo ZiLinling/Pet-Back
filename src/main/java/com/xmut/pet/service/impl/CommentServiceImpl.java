@@ -62,8 +62,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public Comment getBestCommentByGoodsId(Integer goodsId) {
         Comment comment = this.baseMapper.getBestCommentByGoodsId(goodsId);
+        if(comment==null){
+            return null;
+        }
         comment.put("user", userService.getById(comment.getUserId()));
 
+
+        QueryWrapper<Comment> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("goods_id",goodsId);
+        List<Comment> comments=this.list(queryWrapper);
+        comment.put("length",comments.toArray().length);
         return comment;
     }
 
